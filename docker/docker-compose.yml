@@ -1,0 +1,19 @@
+version: '3.9'
+
+services:
+  jupyter-spark-pseudo:
+    image: loum/jupyter-spark-pseudo:6.4.10-3.2.1
+    container_name: diffit-jupyter
+    hostname: jupyter
+    volumes:
+      - ./notebooks:/home/hdfs/notebooks
+      - ./data:/data
+    environment:
+      JUPYTER_PORT: ${JUPYTER_PORT}
+      YARN_SITE__YARN_NODEMANAGER_RESOURCE_DETECT_HARDWARE_CAPABILITIES: "true"
+    ports:
+      - 8032:8032
+      - 8088:8088
+      - 8042:8042
+      - 18080:18080
+      - "${JUPYTER_PORT}:${JUPYTER_PORT}"

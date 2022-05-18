@@ -1,0 +1,17 @@
+{
+    "type": "struct",
+    "fields": [
+        {
+            "name" : "col01",
+            "type" : "integer",
+            "nullable": true,
+            "metadata": {}
+        },
+        {
+            "name": "col02",
+            "type": "string",
+            "nullable": true,
+            "metadata": {}
+        }
+    ]
+}

@@ -1,0 +1,4 @@
+# Ignore everything in this directory as we only need it for scaffolding.
+*
+# Except this file
+!.gitignore

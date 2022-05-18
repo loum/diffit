@@ -1,0 +1,5 @@
+[run]
+omit = tests/*,3env/*,setup.py
+
+[report]
+show_missing = True
