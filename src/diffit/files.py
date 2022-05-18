@@ -12,8 +12,6 @@ from pyspark.sql.types import StructType
 def spark_csv_reader(spark: SparkSession, schema: StructType, csv_path: str) -> DataFrame:
     """Spark CSV reader.
 
-    Customised for Seek Analytics gunk.
-
     """
     return spark.read\
         .schema(schema)\
@@ -28,8 +26,6 @@ def spark_csv_reader(spark: SparkSession, schema: StructType, csv_path: str) -> 
 
 def spark_parquet_reader(spark: SparkSession, parquet_path: str) -> DataFrame:
     """Spark Parquet reader.
-
-    Customised for Seek Analytics gunk.
 
     """
     return spark.read.parquet(parquet_path)

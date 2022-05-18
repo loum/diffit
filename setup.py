@@ -58,7 +58,7 @@ SETUP_KWARGS = {
     'install_requires': PACKAGES,
     'package_dir': {'': 'src'},
     'packages': setuptools.find_packages(where='src'),
-    'package_dir': {'': 'src'},
+    'package_data': {'diffit.schema': ['data/*.json']},
     'scripts': ['src/bin/differ'],
     'include_package_data': True,
     'license': 'MIT',

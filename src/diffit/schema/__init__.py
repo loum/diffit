@@ -12,6 +12,16 @@ import filester
 import diffit.files
 
 
+def default_path_to_schemas():
+    """Default location of the hard-wired JSON schema definitions.
+
+    """
+    def get_path():
+        return os.path.join(pathlib.Path(__file__).resolve().parents[0], 'data')
+
+    return get_path()
+
+
 def interpret_schema(path_to_schema: str) -> StructType:
     """Generate a :class:`pyspark.sql.types.StructType` from source JSON defined by
     path at `path_to_schema`.
@@ -39,7 +49,7 @@ def names(path_to_schemas: str = None,
 
     """
     if not path_to_schemas:
-        path_to_schemas = os.path.join(pathlib.Path(__file__).resolve().parents[0], 'data')
+        path_to_schemas = default_path_to_schemas()
 
     logging.info('Checking for schemas under: %s', path_to_schemas)
     schema_paths = filester.get_directory_files_list(path_to_schemas, file_filter=file_filter)
@@ -55,7 +65,7 @@ def get(schema_name: str, path_to_schemas: str = None) -> Union[StructType, None
 
     """
     if not path_to_schemas:
-        path_to_schemas = os.path.join(pathlib.Path(__file__).resolve().parents[0], 'data')
+        path_to_schemas = default_path_to_schemas()
 
     schema_struct = None
     try:

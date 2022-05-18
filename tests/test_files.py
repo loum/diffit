@@ -66,8 +66,6 @@ def test_split_dir():
     # Given a directory path
     directory_path = os.path.join('data',
                                   'dependencies.zip',
-                                  'diffit',
-                                  'schema',
                                   'data',
                                   'Dummy.json')
 
@@ -79,7 +77,7 @@ def test_split_dir():
 
     # then I should received a new directory path
     msg = 'Directory split against known part should return reduced directory path'
-    assert received == 'diffit/schema/data/Dummy.json', msg
+    assert received == 'data/Dummy.json', msg
 
 
 def test_split_dir_no_token_match():
@@ -88,8 +86,6 @@ def test_split_dir_no_token_match():
     # Given a directory path
     directory_path = os.path.join('data',
                                   'dependencies.zip',
-                                  'diffit',
-                                  'schema',
                                   'data',
                                   'Dummy.json')
 

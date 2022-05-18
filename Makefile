@@ -9,6 +9,9 @@ include makester/makefiles/docker.mk
 include makester/makefiles/compose.mk
 include makester/makefiles/versioning.mk
 
+GITVERSION_VERSION := 5.10.1-alpine.3.14-6.0
+GITVERSION_CONFIG := makester/sample/GitVersion.yml
+
 UNAME := $(shell uname)
 ifeq ($(UNAME), Darwin)
 LOCAL_IP := $(shell ipconfig getifaddr en0)
@@ -47,7 +50,7 @@ tests:
 	$(PYTHON) -m pytest\
  --override-ini log_cli=true\
  --override-ini  junit_family=xunit2\
- --log-cli-level=INFO -svv\
+ --log-cli-level=INFO -vv\
  --exitfirst\
  --cov-config tests/.coveragerc\
  --pythonwarnings ignore\
@@ -55,8 +58,13 @@ tests:
  -p tests.dataframes\
  --junitxml junit.xml $(TESTS)
 
+check-release-version:
+	$(info ### Checking MAKESTER__VERSION)
+	$(call check_defined, MAKESTER__VERSION)
+
 package: WHEEL = .wheelhouse
 package: APP_ENV = prod
+package: check-release-version release-version
 
 deps:
 	pipdeptree
@@ -74,11 +82,11 @@ dep-package: dep-builder
  && zip -r $(MAKESTER__PROJECT_DIR)/docker/files/python/dependencies.zip *
 
 CMD ?= --help
-diffit:
-	@src/bin/diffit $(CMD)
+differ:
+	@src/bin/differ $(CMD)
 
-diffit-schema-list: CMD = schema list
-diffit-schema-list: diffit
+differ-schema-list: CMD = schema list
+differ-schema-list: differ
 
 UBUNTU_BASE_IMAGE := focal-20220426
 SPARK_PSEUDO_BASE_IMAGE := 3.3.2-3.2.1
@@ -163,7 +171,7 @@ stack-server:
 pyspark:
 	@pyspark --driver-memory=2G --conf spark.sql.session.timeZone=UTC
 
-help: makester-help python-venv-help docker-help compose-help
+help: makester-help docker-help python-venv-help versioning-help
 	@echo "(Makefile)\n\
   init                 Build the local Python-based virtual environment\n\
   deps                 Display PyPI package dependency tree\n\
@@ -173,6 +181,6 @@ help: makester-help python-venv-help docker-help compose-help
   stack-up             Create local Jupyter Notebook server infrastructure and intialisation\n\
   stack-server         Get local Jupyter Notebook server URL\n\
   stack-down           Destroy local Jupyter Notebook server infrastructure\n\
-  diffit-schema-list   Show the diffit tool schemas\n"
+  differ-schema-list   Show the differ tool schemas\n"
 
 .PHONY: help tests
