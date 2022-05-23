@@ -4,8 +4,6 @@ import os
 import setuptools
 
 
-PROJECT_NAME = os.path.basename(os.path.dirname(os.path.realpath(__file__)))
-
 class Packaging(setuptools.Command):
     """Common PyPI packaging tools.
 
@@ -24,11 +22,6 @@ class Packaging(setuptools.Command):
 
         """
         os.system('rm -vrf ./build ./dist ./*.pyc ./*.tgz ./*.egg-info')
-
-cwd = os.getcwd()
-project_path_name = os.path.abspath(os.path.realpath(__file__))
-if os.path.basename(cwd) != PROJECT_NAME:
-    os.chdir(project_path_name.parent)
 
 PROD_PACKAGES = [
     'filester',
@@ -49,7 +42,7 @@ if (os.environ.get('APP_ENV') and 'local' in os.environ.get('APP_ENV')):
     PACKAGES.extend(DEV_PACKAGES)
 
 SETUP_KWARGS = {
-    'name': PROJECT_NAME,
+    'name': 'diffit',
     'version': os.environ.get('MAKESTER__RELEASE_VERSION', '1.0.0'),
     'description': 'Data Differ',
     'author': 'Lou Markovski',
@@ -57,7 +50,7 @@ SETUP_KWARGS = {
     'url': 'https://github.com/loum/differ',
     'install_requires': PACKAGES,
     'package_dir': {'': 'src'},
-    'packages': setuptools.find_packages(where='src'),
+    'packages': setuptools.find_namespace_packages(where='src'),
     'package_data': {'diffit.schema': ['data/*.json']},
     'scripts': ['src/bin/differ'],
     'include_package_data': True,

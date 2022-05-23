@@ -6,8 +6,8 @@ services:
     container_name: diffit-jupyter
     hostname: jupyter
     volumes:
-      - ./notebooks:/home/hdfs/notebooks
-      - ./data:/data
+      - ./notebooks:/home/hdfs/notebooks:U
+      - ./data:/data:U
     environment:
       JUPYTER_PORT: ${JUPYTER_PORT}
       YARN_SITE__YARN_NODEMANAGER_RESOURCE_DETECT_HARDWARE_CAPABILITIES: "true"

@@ -1,7 +1,7 @@
 # Diff-it: Data Differ
 - [Overview](#Overview)
 - [Prerequisites](#Prerequisites)
-  - [Upgrading GNU Make (macOS)](#Upgrading-GNU-Make-(macOS))
+  - [Upgrading GNU Make (macOS)](#Upgrading-GNU-Make-macOS)
 - [Getting Started](#Getting-Started)
   - [Creating the Local Environment](#Creating-the-Local-Environment)
     - [Local Environment Maintenance](#Local-Environment-Maintenance)
@@ -13,8 +13,8 @@
   - [Image Searches](#Image-Searches)
   - [Docker Image Version Tag](#Docker-Image-Version-Tag)
 - [Automating Builds with BuildKite](#Automating-Builds-with-BuildKite)
-- [`diffit` Command](#`diffit`-Command)
-- [Useful `make` Commands](#Useful-`make`-Commands)
+- [`diffit` Command](#diffit-Command)
+- [Useful `make` Commands](#Useful-make-Commands)
 - [FAQs](#FAQs)
 
 ## Overview
@@ -400,4 +400,4 @@ export JAVA_HOME=$(/usr/libexec/java_home -v <java_version>)
 ```
 
 ---
-[top](#Diff-it:-Data-Differ)
+[top](#Diff-it-Data-Differ)
