@@ -28,18 +28,24 @@ def spark_context(request) -> pyspark.SparkContext:
 
     conf = pyspark.SparkConf()
     conf.setAppName('test')
-    conf.set('spark.executor.memory', '2g')
-    conf.set('spark.executor.cores', '2')
-    conf.set('spark.cores.max', '10')
+    conf.set('spark.driver.memory', '1g')
     conf.set('spark.ui.port', '4050')
     conf.set('spark.logConf', True)
     conf.set('spark.debug.maxToStringFields', 100)
+    conf.set('spark.sql.session.timeZone', 'UTC')
 
     _sc = pyspark.SparkContext(conf=conf)
 
     request.addfinalizer(fin)
 
     return _sc
+
+
+@pytest.fixture(scope='session')
+def spark(spark_context) -> pyspark.sql.SparkSession:
+    """Handler to the Spark session.
+    """
+    return pyspark.sql.SparkSession(spark_context)
 
 
 @pytest.fixture
