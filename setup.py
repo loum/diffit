@@ -25,7 +25,7 @@ class Packaging(setuptools.Command):
 
 PROD_PACKAGES = [
     'filester',
-    'pyspark~=3.2',
+    'pyspark=3.3.*',
 ]
 
 DEV_PACKAGES = [
