@@ -31,7 +31,7 @@ def test_spark_session(spark):
 
     # then the version number should the currently supported value
     msg = 'Supported SparkSession version error'
-    assert received.startswith('3.3'), msg
+    assert received.startswith('3'), msg
 
 
 def test_working_dir(working_dir):

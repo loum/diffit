@@ -1,6 +1,8 @@
 """Compare two Spark SQL DataFrames.
 
 """
+__app_name__ = "diffit"
+
 import logging
 from typing import Iterable, List, Optional
 from pyspark.sql import DataFrame

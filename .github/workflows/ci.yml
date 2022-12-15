@@ -1,0 +1,46 @@
+name: Diffit CI
+run-name: ${{ github.actor }} ${{ github.event_name }} event Diffit CI 🚀
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - 'task/**'
+      - 'feature/**'
+      - 'defect/**'
+permissions:
+  contents: write
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      - name: Check out repository code
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+          fetch-depth: 0
+      - name: Project Diffit vars
+        run: make vars
+      - name: Project Diffit test suite
+        run: |
+          make init-dev
+          make tests
+      - run: echo "🍏 ${{ job.status }}"
+  docs:
+    runs-on: ubuntu-latest
+    needs: tests
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+          fetch-depth: 0
+      - name: Project Diffit docs build
+        run: |
+          make init-dev
+          make docs-gh-deploy
+      - run: echo "🍏 ${{ job.status }}"

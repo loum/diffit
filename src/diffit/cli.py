@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 """Diff-it executable.
 
 """
@@ -262,7 +260,3 @@ def spark_conf(driver_memory: str = '2g') -> SparkConf:
             conf.set('spark.hadoop.fs.s3a.server-side-encryption.key', kms_key_arn)
 
     return conf
-
-
-if __name__ == '__main__':
-    main()

@@ -1,3 +1,6 @@
+# Makester GitVersion dynamic package release version
+src/*/VERSION
+
 # Makester
 .makester
 
