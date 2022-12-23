@@ -1,0 +1,38 @@
+site_name: Diffit
+site_url: https://loum.github.io/diffit/
+nav:
+  - Home: index.md
+  - Getting started: getting-started.md
+  - Utilities:
+    - utilities/index.md
+    - diffit:
+      - utilities/diffit/schema.md
+      - utilities/diffit/row.md
+      - utilities/diffit/analyse.md
+      - utilities/diffit/columns.md
+      - utilities/diffit/convert.md
+markdown_extensions:
+  - admonition
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+
+theme:
+  name: material
+  palette:
+    # Palette toggle for light mode
+    - scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - header.autohide
