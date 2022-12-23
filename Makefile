@@ -4,50 +4,29 @@
 MAKESTER__CONTAINER_NAME := diffit-spark
 
 include makester/makefiles/makester.mk
-include makester/makefiles/python-venv.mk
-include makester/makefiles/docker.mk
-include makester/makefiles/compose.mk
-include makester/makefiles/versioning.mk
+MAKESTER__PACKAGE_NAME := diffit
 
-GITVERSION_VERSION := 5.10.1-alpine.3.14-6.0
-GITVERSION_CONFIG := makester/sample/GitVersion.yml
-
-UNAME := $(shell uname)
-ifeq ($(UNAME), Darwin)
-LOCAL_IP := $(shell ipconfig getifaddr en0)
-DOCKER_PLATFORM := --platform linux/amd64
-else ifeq ($(UNAME), Linux)
-LOCAL_IP := $(shell hostname -I | awk '{print $$1}')
+ifeq ($(MAKESTER__ARCH), arm64)
+  DOCKER_PLATFORM := --platform linux/amd64
 endif
 
-# Update the README if changing the default Spark version.
-SPARK_VERSION := 3.2.1
-# Tagging convention used: <spark-version>-<workflow-version>-<image-release-number>
-MAKESTER__VERSION := $(SPARK_VERSION)-$(RELEASE_VERSION)
-MAKESTER__RELEASE_NUMBER ?= 1
+MAKESTER__WHEEL := .wheelhouse
 
-# Tag the image build
-export MAKESTER__IMAGE_TAG_ALIAS = $(MAKESTER__SERVICE_NAME):$(MAKESTER__VERSION)-$(MAKESTER__RELEASE_NUMBER)
+_venv-init: py-venv-clear py-venv-init
 
-# Add current Python virtual environment to path.
-export PATH := 3env/bin:$(PATH)
-export PYTHONPATH := src
+# Install optional packages for development.
+init-dev: _venv-init py-install-makester
+	MAKESTER__PIP_INSTALL_EXTRAS=dev $(MAKE) gitversion-release py-install-extras
 
-# APP_ENV is used in setup.py.
-ifndef APP_ENV
-export APP_ENV := local
-else
-export APP_ENV := $(APP_ENV)
-endif
+# Streamlined production packages.
+init: py-venv-clear py-venv-init gitversion-release
+	$(MAKE) py-install
 
-init: WHEEL := .wheelhouse
-init: clear-env makester-requirements
-	$(info ### Installing "$(MAKESTER__PROJECT_NAME)" and dependencies ...)
-	$(MAKE) pip-editable
+MAKESTER__VERSION_FILE := $(MAKESTER__PYTHON_PROJECT_ROOT)/VERSION
 
 TESTS := tests
 tests:
-	$(PYTHON) -m pytest\
+	$(MAKESTER__PYTHON) -m pytest\
  --override-ini log_cli=true\
  --override-ini  junit_family=xunit2\
  --log-cli-level=INFO -vv\
@@ -58,44 +37,44 @@ tests:
  -p tests.dataframes\
  --junitxml junit.xml $(TESTS)
 
-check-release-version:
-	$(info ### Checking MAKESTER__VERSION)
-	$(call check_defined, MAKESTER__VERSION)
+# Update the README if changing the default Spark version.
+SPARK_VERSION := 3.2.1
+# Tagging convention used: <spark-version>-<workflow-version>-<image-release-number>
+MAKESTER__VERSION := $(SPARK_VERSION)-$(RELEASE_VERSION)
+MAKESTER__RELEASE_NUMBER ?= 1
 
-package: WHEEL = .wheelhouse
-package: APP_ENV = prod
-package: check-release-version release-version
+# Tag the image build
+export MAKESTER__IMAGE_TAG_ALIAS = $(MAKESTER__SERVICE_NAME):$(MAKESTER__RELEASE_VERSION)-$(MAKESTER__RELEASE_NUMBER)
 
-deps:
-	pipdeptree
+py-distribution: MAKESTER__WHEEL = .wheelhouse
 
 lint:
 	-@pylint $(MAKESTER__PROJECT_DIR)/src
 
 dep-builder: APP_ENV = prod
 dep-builder: PIP_INSTALL = --upgrade --target .dependencies .
-dep-builder: init-env
+dep-builder: py-venv-init
 
 dep-package: dep-builder
 	$(info ### Building the spark-submit python dependencies zip file)
-	@cd $(MAKESTER__PROJECT_DIR)/.dependencies\
- && zip -r $(MAKESTER__PROJECT_DIR)/docker/files/python/dependencies.zip *
+	@$(shell which mkdir) -pv $(MAKESTER__PROJECT_DIR)/.dependencies\
+ && cd $(MAKESTER__PROJECT_DIR)/.dependencies\
+ && zip -r $(MAKESTER__PROJECT_DIR)/docker/files/python/dependencies.zip . -i *
 
 CMD ?= --help
-differ:
-	@src/bin/differ $(CMD)
+diffit:
+	@diffit $(CMD)
 
 differ-schema-list: CMD = schema list
 differ-schema-list: differ
 
 UBUNTU_BASE_IMAGE := focal-20220426
 SPARK_PSEUDO_BASE_IMAGE := 3.3.2-3.2.1
-MAKESTER__BUILD_COMMAND = $(DOCKER) build --rm\
- --no-cache\
+MAKESTER__BUILD_COMMAND := --rm --no-cache\
  --build-arg UBUNTU_BASE_IMAGE=$(UBUNTU_BASE_IMAGE)\
  --build-arg SPARK_PSEUDO_BASE_IMAGE=$(SPARK_PSEUDO_BASE_IMAGE)\
  -t $(MAKESTER__IMAGE_TAG_ALIAS) -f docker/Dockerfile .
-build-image: dep-package
+image-build: dep-package
 
 ifndef SCHEMA
 SCHEMA := Dummy
@@ -152,11 +131,11 @@ endif
 export JUPYTER_PORT = $(JUPYTER_SERVER_PORT)
 
 backoff:
-	@$(PYTHON) makester/scripts/backoff -d "YARN ResourceManager" -p 8032 localhost
-	@$(PYTHON) makester/scripts/backoff -d "YARN ResourceManager webapp UI" -p 8088 localhost
-	@$(PYTHON) makester/scripts/backoff -d "YARN NodeManager webapp UI" -p 8042 localhost
-	@$(PYTHON) makester/scripts/backoff -d "Spark HistoryServer web UI port" -p 18080 localhost
-	@$(PYTHON) makester/scripts/backoff -d "Jupyter dashboard" -p $(JUPYTER_PORT) localhost
+	@$(MAKESTER__PYTHON) makester/scripts/backoff -d "YARN ResourceManager" -p 8032 localhost
+	@$(MAKESTER__PYTHON) makester/scripts/backoff -d "YARN ResourceManager webapp UI" -p 8088 localhost
+	@$(MAKESTER__PYTHON) makester/scripts/backoff -d "YARN NodeManager webapp UI" -p 8042 localhost
+	@$(MAKESTER__PYTHON) makester/scripts/backoff -d "Spark HistoryServer web UI port" -p 18080 localhost
+	@$(MAKESTER__PYTHON) makester/scripts/backoff -d "Jupyter dashboard" -p $(JUPYTER_PORT) localhost
 
 MAKESTER__COMPOSE_FILES = -f docker/docker-compose.yml
 
@@ -169,18 +148,18 @@ stack-server:
 	@$(DOCKER) exec -ti diffit-jupyter bash -c "jupyter notebook list"
 
 pyspark:
-	@pyspark --driver-memory=2G --conf spark.sql.session.timeZone=UTC
+	@PYSPARK_PYTHON=$(MAKESTER__PYTHON) pyspark --driver-memory=2G --conf spark.sql.session.timeZone=UTC
 
-help: makester-help docker-help python-venv-help versioning-help
+help: makester-help docker-help py-help versioning-help
 	@echo "(Makefile)\n\
+  differ-schema-list   Show the differ tool schemas\n\
   init                 Build the local Python-based virtual environment\n\
-  deps                 Display PyPI package dependency tree\n\
+  init-dev             Build the local Python-based virtual environment (development)\n\
   lint                 Lint the code base\n\
-  tests                Run code test suite\n\
-  pypspark             Start the PyPI pyspark interpreter in virtual env context\n\
-  stack-up             Create local Jupyter Notebook server infrastructure and intialisation\n\
-  stack-server         Get local Jupyter Notebook server URL\n\
+  pyspark              Start the PyPI pyspark interpreter in virtual env context\n\
   stack-down           Destroy local Jupyter Notebook server infrastructure\n\
-  differ-schema-list   Show the differ tool schemas\n"
+  stack-server         Get local Jupyter Notebook server URL\n\
+  stack-up             Create local Jupyter Notebook server infrastructure and intialisation\n\
+  tests                Run code test suite\n"
 
 .PHONY: help tests
