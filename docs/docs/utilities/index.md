@@ -4,11 +4,13 @@
 symmetric differential engine.
 
 ## Usage
-```
-usage: diffit [-h] [-m DRIVER_MEMORY] {schema,row,analyse,columns,convert} ...
+``` sh
+venv/bin/diffit --help
 ```
 
-```
+``` sh title="diffit help"
+usage: diffit [-h] [-m DRIVER_MEMORY] {schema,row,analyse,columns,convert} ...
+
 Diff-it Data Diff tool
 
 positional arguments:

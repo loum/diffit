@@ -12,6 +12,12 @@
             "type": "string",
             "nullable": true,
             "metadata": {}
+        },
+        {
+            "name": "col03",
+            "type": "string",
+            "nullable": true,
+            "metadata": {}
         }
     ]
 }

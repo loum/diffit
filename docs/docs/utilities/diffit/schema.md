@@ -3,11 +3,11 @@
 List all native CSV schemas use the `diffit schema` subcommand.
 
 ## Usage
-```
+``` sh
 venv/bin/diffit schema --help
 ```
 
-```
+``` sh title="diffit schema help"
 usage: diffit schema [-h] {list} ...
 
 positional arguments:

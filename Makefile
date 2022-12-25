@@ -34,7 +34,7 @@ tests:
  --cov-config tests/.coveragerc\
  --pythonwarnings ignore\
  --cov src\
- -p tests.dataframes\
+ -p tests.diffit.dataframes\
  --junitxml junit.xml $(TESTS)
 
 # Update the README if changing the default Spark version.
