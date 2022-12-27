@@ -224,6 +224,18 @@
   
 
       
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../../containerisation/" class="md-tabs__link">
+      Scaling out
+    </a>
+  </li>
+
+      
     </ul>
   </div>
 </nav>
@@ -364,20 +376,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../schema/" class="md-nav__link">
-        diffit schema
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../row/" class="md-nav__link">
         diffit row
       </a>
@@ -489,6 +487,21 @@
   
 
     
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../containerisation/" class="md-nav__link">
+        Scaling out
+      </a>
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
@@ -563,18 +576,20 @@ you to report on a specific key/value pairing for targeted analysis.</p>
 <a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>  -h, --help  show this <span class="nb">help</span> message and <span class="nb">exit</span>
 </code></pre></div>
 <h2 id="example">Example</h2>
-<p>Given a Diffit extract at <code>/tmp/out</code> that features:</p>
+<div class="highlight"><span class="filename">Reset the Diffit extract</span><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>venv/bin/diffit row --output /tmp/out csv --csv-separator <span class="s1">&#39;;&#39;</span> /tmp/Dummy.json docker/files/data/left docker/files/data/right
+</code></pre></div>
+<p>The Diffit extract at <code>/tmp/out</code> features:</p>
 <ul>
 <li>A schema column <code>col01</code> acting as the unique constraint</li>
 <li>A key column value of <code>2</code> as a filter</li>
 </ul>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>venv/bin/diffit columns col01 <span class="m">2</span> /tmp/out
+<div class="highlight"><span class="filename">diffit columns filter for key:value pair col01:2</span><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>venv/bin/diffit columns col01 <span class="m">2</span> /tmp/out
 </code></pre></div>
-<div class="highlight"><span class="filename">Result</span><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1">### col01|2: [</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>    <span class="o">{</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>        <span class="s2">&quot;col02&quot;</span>: <span class="s2">&quot;col02_val02&quot;</span>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>    <span class="o">}</span>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="o">]</span>
+<div class="highlight"><span class="filename">Result</span><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1">### col01|2: [</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>    <span class="o">{</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>        <span class="s2">&quot;col02&quot;</span>: <span class="s2">&quot;col02_val02&quot;</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>    <span class="o">}</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="o">]</span>
 </code></pre></div>
 
 

@@ -224,6 +224,18 @@
   
 
       
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../../containerisation/" class="md-tabs__link">
+      Scaling out
+    </a>
+  </li>
+
+      
     </ul>
   </div>
 </nav>
@@ -362,20 +374,6 @@
               
   
   
-  
-    <li class="md-nav__item">
-      <a href="../schema/" class="md-nav__link">
-        diffit schema
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
     
   
   
@@ -419,23 +417,63 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#example" class="md-nav__link">
-    Example
+  <a href="#csv-data-sources" class="md-nav__link">
+    CSV Data Sources
+  </a>
+  
+    <nav class="md-nav" aria-label="CSV Data Sources">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-csv-data-sources" class="md-nav__link">
+    Example: CSV Data Sources
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parquet-data-sources" class="md-nav__link">
+    Parquet Data Sources
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#example-report-on-subset-of-spark-dataframe-columns" class="md-nav__link">
-    Example: Report on Subset of Spark DataFrame Columns
+  <a href="#report-on-subset-of-spark-dataframe-columns" class="md-nav__link">
+    Report on Subset of Spark DataFrame Columns
   </a>
   
-    <nav class="md-nav" aria-label="Example: Report on Subset of Spark DataFrame Columns">
+    <nav class="md-nav" aria-label="Report on Subset of Spark DataFrame Columns">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#example-column-value-range-filtering" class="md-nav__link">
-    Example: Column Value Range Filtering
+  <a href="#example-csv-data-sources-with-column-filtering" class="md-nav__link">
+    Example: CSV Data Sources with Column Filtering
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#column-value-range-filtering" class="md-nav__link">
+    Column Value Range Filtering
+  </a>
+  
+    <nav class="md-nav" aria-label="Column Value Range Filtering">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-csv-data-sources-with-output-reduced-through-range-filtering" class="md-nav__link">
+    Example: CSV Data Sources with Output Reduced through Range Filtering
   </a>
   
 </li>
@@ -509,6 +547,21 @@
   
 
     
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../containerisation/" class="md-nav__link">
+        Scaling out
+      </a>
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
@@ -543,23 +596,63 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#example" class="md-nav__link">
-    Example
+  <a href="#csv-data-sources" class="md-nav__link">
+    CSV Data Sources
+  </a>
+  
+    <nav class="md-nav" aria-label="CSV Data Sources">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-csv-data-sources" class="md-nav__link">
+    Example: CSV Data Sources
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parquet-data-sources" class="md-nav__link">
+    Parquet Data Sources
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#example-report-on-subset-of-spark-dataframe-columns" class="md-nav__link">
-    Example: Report on Subset of Spark DataFrame Columns
+  <a href="#report-on-subset-of-spark-dataframe-columns" class="md-nav__link">
+    Report on Subset of Spark DataFrame Columns
   </a>
   
-    <nav class="md-nav" aria-label="Example: Report on Subset of Spark DataFrame Columns">
+    <nav class="md-nav" aria-label="Report on Subset of Spark DataFrame Columns">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#example-column-value-range-filtering" class="md-nav__link">
-    Example: Column Value Range Filtering
+  <a href="#example-csv-data-sources-with-column-filtering" class="md-nav__link">
+    Example: CSV Data Sources with Column Filtering
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#column-value-range-filtering" class="md-nav__link">
+    Column Value Range Filtering
+  </a>
+  
+    <nav class="md-nav" aria-label="Column Value Range Filtering">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-csv-data-sources-with-output-reduced-through-range-filtering" class="md-nav__link">
+    Example: CSV Data Sources with Output Reduced through Range Filtering
   </a>
   
 </li>
@@ -585,100 +678,147 @@
 
 
 <h1 id="diffit-row">diffit row</h1>
-<p><code>diffit row</code> reporter acts on two similarly constructed
-<a href="https://spark.apache.org/docs/latest/sql-data-sources-parquet.html">Spark Parquet</a> output sources. These
-are denoted as <code>left</code> and <code>right</code>. Differences are reported at the <em>row</em> level.</p>
+<p><code>diffit row</code> reporter acts on two data sources with the same schema. These are denoted as <code>left</code>
+and <code>right</code>. Differences are reported at the <em>row</em> level. Both CSV and
+<a href="https://spark.apache.org/docs/latest/sql-data-sources-parquet.html">Spark Parquet</a> data sources are supported. </p>
 <p>Another way to think about the <code>diffit row</code> reporter is that identical rows from the <code>left</code> and <code>right</code> data sources
 are suppressed from the output.</p>
 <p><code>diffit row</code> will produce a Diffit extract that is a Spark DataFrame in
 <a href="https://spark.apache.org/docs/latest/sql-data-sources-parquet.html">Spark Parquet</a> format. The Diffit
 extract can then be further analysed using other <code>diffit</code> subcommands
-<a href="../utilities/analyse.md">see <code>diffit analyse</code></a> or with any other tooling that supports parquet.</p>
+<a href="../analyse/">see <code>diffit analyse</code></a> or with any other tooling that supports parquet.</p>
 <p>A key characteristic of the Diffit extract is that it features a new column <code>diffit_ref</code>. This denotes
 the source reference that has caused the row level exception. Typically, this value will be either <code>left</code> or <code>right</code>.</p>
 <h2 id="usage">Usage</h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>venv/bin/diffit row --help
+<div class="highlight"><span class="filename">diffit row help</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>venv/bin/diffit row --help
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>usage: diffit row <span class="o">[</span>-h<span class="o">]</span> <span class="o">[</span>-o OUTPUT<span class="o">]</span> <span class="o">[</span>-d <span class="o">[</span>DROP ...<span class="o">]]</span> <span class="o">[</span>-r RANGE<span class="o">]</span> <span class="o">[</span>-L LOWER<span class="o">]</span> <span class="o">[</span>-U UPPER<span class="o">]</span> <span class="o">[</span>-F<span class="o">]</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>                  schema left_data_source right_data_source
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>positional arguments:
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>  schema                Report schema
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>  left_data_source      <span class="s2">&quot;Left&quot;</span> DataFrame <span class="nb">source</span> location
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>  right_data_source     <span class="s2">&quot;Right&quot;</span> DataFrame <span class="nb">source</span> location
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>options:
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>  -h, --help            show this <span class="nb">help</span> message and <span class="nb">exit</span>
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>  -o OUTPUT, --output OUTPUT
-<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>                        Write results to path
-<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>  -d <span class="o">[</span>DROP ...<span class="o">]</span>, --drop <span class="o">[</span>DROP ...<span class="o">]</span>
-<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>                        Drop column from diffit engine
-<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>  -r RANGE, --range RANGE
-<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>                        Column to target <span class="k">for</span> range filter
-<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>  -L LOWER, --lower LOWER
-<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>                        Range filter lower bound <span class="o">(</span>inclusive<span class="o">)</span>
-<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>  -U UPPER, --upper UPPER
-<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>                        Range filter upper bound <span class="o">(</span>inclusive<span class="o">)</span>
-<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>  -F, --force-range     Force string-based range filter
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>usage: diffit row <span class="o">[</span>-h<span class="o">]</span> <span class="o">[</span>-o OUTPUT<span class="o">]</span> <span class="o">[</span>-d <span class="o">[</span>DROP ...<span class="o">]]</span> <span class="o">[</span>-r RANGE<span class="o">]</span> <span class="o">[</span>-L LOWER<span class="o">]</span> <span class="o">[</span>-U UPPER<span class="o">]</span> <span class="o">[</span>-F<span class="o">]</span> <span class="o">{</span>csv,parquet<span class="o">}</span> ...
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>options:
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>  -h, --help            show this <span class="nb">help</span> message and <span class="nb">exit</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>  -o OUTPUT, --output OUTPUT
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>                        Write results to path
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>  -d <span class="o">[</span>DROP ...<span class="o">]</span>, --drop <span class="o">[</span>DROP ...<span class="o">]</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>                        Drop column from diffit engine
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>  -r RANGE, --range RANGE
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>                        Column to target <span class="k">for</span> range filter
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>  -L LOWER, --lower LOWER
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>                        Range filter lower bound <span class="o">(</span>inclusive<span class="o">)</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>  -U UPPER, --upper UPPER
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>                        Range filter upper bound <span class="o">(</span>inclusive<span class="o">)</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>  -F, --force-range     Force string-based range filter
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>sub-commands:
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>  <span class="o">{</span>csv,parquet<span class="o">}</span>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>    csv                 CSV row-level
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>    parquet             Parquet row-level
 </code></pre></div>
-<h2 id="example">Example</h2>
-<p>A sample data set has been provided for the <code>Dummy</code> schema. This can be invoked as follows:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>venv/bin/diffit row --output /tmp/out Dummy docker/files/data/left docker/files/data/right
+<h2 id="csv-data-sources">CSV Data Sources</h2>
+<p>CSV files will require a schema definition. This needs to be provided as a JSON construct.</p>
+<div class="highlight"><span class="filename">diffit row csv help</span><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>venv/bin/diffit row csv --help
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>usage: diffit row csv <span class="o">[</span>-h<span class="o">]</span> <span class="o">[</span>-s CSV_SEPARATOR<span class="o">]</span> <span class="o">[</span>-E<span class="o">]</span> schema left_data_source right_data_source
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>positional arguments:
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>  schema                Path to CSV schema <span class="k">in</span> JSON format
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>  left_data_source      <span class="s2">&quot;Left&quot;</span> CSV <span class="nb">source</span> location
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>  right_data_source     <span class="s2">&quot;Right&quot;</span> CSV <span class="nb">source</span> location
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>options:
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>  -h, --help            show this <span class="nb">help</span> message and <span class="nb">exit</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>  -s CSV_SEPARATOR, --csv-separator CSV_SEPARATOR
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>                        CSV separator
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>  -E, --csv-header      CSV contains header
+</code></pre></div>
+<h3 id="example-csv-data-sources">Example: CSV Data Sources</h3>
+<p>Save the following sample JSON schema definition to <code>/tmp/Dummy.json</code>:
+<div class="highlight"><span class="filename">Example CSV JSON Schema</span><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="o">{</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>    <span class="s2">&quot;type&quot;</span>: <span class="s2">&quot;struct&quot;</span>,
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>    <span class="s2">&quot;fields&quot;</span>: <span class="o">[</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>        <span class="o">{</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>            <span class="s2">&quot;name&quot;</span> : <span class="s2">&quot;col01&quot;</span>,
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>            <span class="s2">&quot;type&quot;</span> : <span class="s2">&quot;integer&quot;</span>,
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>            <span class="s2">&quot;nullable&quot;</span>: true,
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>            <span class="s2">&quot;metadata&quot;</span>: <span class="o">{}</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>        <span class="o">}</span>,
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>        <span class="o">{</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>            <span class="s2">&quot;name&quot;</span>: <span class="s2">&quot;col02&quot;</span>,
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>            <span class="s2">&quot;type&quot;</span>: <span class="s2">&quot;string&quot;</span>,
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>            <span class="s2">&quot;nullable&quot;</span>: true,
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>            <span class="s2">&quot;metadata&quot;</span>: <span class="o">{}</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>        <span class="o">}</span>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>    <span class="o">]</span>
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="o">}</span>
 </code></pre></div></p>
-<p>Use the local <code>pyspark</code> shell to view the results:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>make pyspark
+<p>Next, run the CSV row comparitor:
+<div class="highlight"><span class="filename">diffit row csv command</span><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>venv/bin/diffit row csv --csv-separator <span class="s1">&#39;;&#39;</span> /tmp/Dummy.json docker/files/data/left docker/files/data/right
 </code></pre></div></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>&gt;&gt;&gt; <span class="nv">df</span> <span class="o">=</span> spark.read.parquet<span class="o">(</span><span class="s1">&#39;/tmp/out&#39;</span><span class="o">)</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>&gt;&gt;&gt; df.orderBy<span class="o">(</span><span class="s1">&#39;col01&#39;</span><span class="o">)</span>.show<span class="o">()</span>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>+-----+-----------+----------+
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="p">|</span>col01<span class="p">|</span>      col02<span class="p">|</span>diffit_ref<span class="p">|</span>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>+-----+-----------+----------+
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="p">|</span>    <span class="m">2</span><span class="p">|</span>col02_val02<span class="p">|</span>      left<span class="p">|</span>
-<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="p">|</span>    <span class="m">2</span><span class="p">|</span>col02_valXX<span class="p">|</span>     right<span class="p">|</span>
-<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="p">|</span>    <span class="m">9</span><span class="p">|</span>col02_val09<span class="p">|</span>     right<span class="p">|</span>
-<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>+-----+-----------+----------+
+<div class="highlight"><span class="filename">diffit row csv example output</span><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>+-----+-----------+-----------+----------+
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="p">|</span>col01<span class="p">|</span>col02      <span class="p">|</span>col03      <span class="p">|</span>diffit_ref<span class="p">|</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>+-----+-----------+-----------+----------+
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="p">|</span><span class="m">2</span>    <span class="p">|</span>col02_val02<span class="p">|</span>col03_val02<span class="p">|</span>left      <span class="p">|</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="p">|</span><span class="m">8</span>    <span class="p">|</span>col02_val08<span class="p">|</span>col03_val08<span class="p">|</span>left      <span class="p">|</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="p">|</span><span class="m">9</span>    <span class="p">|</span>col02_val09<span class="p">|</span>col03_val09<span class="p">|</span>right     <span class="p">|</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="p">|</span><span class="m">2</span>    <span class="p">|</span>col02_valXX<span class="p">|</span>col03_val02<span class="p">|</span>right     <span class="p">|</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="p">|</span><span class="m">8</span>    <span class="p">|</span>col02_val08<span class="p">|</span>col03_valYY<span class="p">|</span>right     <span class="p">|</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>+-----+-----------+-----------+----------+
 </code></pre></div>
-<h2 id="example-report-on-subset-of-spark-dataframe-columns">Example: Report on Subset of Spark DataFrame Columns</h2>
+<h2 id="parquet-data-sources">Parquet Data Sources</h2>
+<p>Take advantage of the nice features of Spark Parquet.
+<div class="highlight"><span class="filename">diffit row parquet help</span><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>venv/bin/diffit row parquet --help
+</code></pre></div></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>usage: diffit row parquet <span class="o">[</span>-h<span class="o">]</span> left_data_source right_data_source
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>positional arguments:
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>  left_data_source   <span class="s2">&quot;Left&quot;</span> Parquet <span class="nb">source</span> location
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>  right_data_source  <span class="s2">&quot;Right&quot;</span> Parquet <span class="nb">source</span> location
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>options:
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>  -h, --help         show this <span class="nb">help</span> message and <span class="nb">exit</span>
+</code></pre></div>
+<h2 id="report-on-subset-of-spark-dataframe-columns">Report on Subset of Spark DataFrame Columns</h2>
 <p><code>diffit</code> can be run on a subset of DataFrame columns. This can limit the symmetric difference checker
 to a reduced number of colums for more targeted, efficient processing.</p>
 <p>To remove one or more unwanted Spark DataFrame columns use the <code>drop</code> switch. For example,
-to drop <code>col02</code> from the local test sample:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>venv/bin/diffit row --output /tmp/out --drop col02 -- Dummy docker/files/data/left docker/files/data/right
-</code></pre></div></p>
-<p>To view the results:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>make pyspark
-</code></pre></div></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>&gt;&gt;&gt; <span class="nv">df</span> <span class="o">=</span> spark.read.parquet<span class="o">(</span><span class="s1">&#39;/tmp/out&#39;</span><span class="o">)</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>&gt;&gt;&gt; df.show<span class="o">()</span>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>+-----+----------+
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="p">|</span>col01<span class="p">|</span>diffit_ref<span class="p">|</span>
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>+-----+----------+
-<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="p">|</span>    <span class="m">9</span><span class="p">|</span>     right<span class="p">|</span>
-<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>+-----+----------+
+to drop <code>col02</code> from the local test sample:</p>
+<h3 id="example-csv-data-sources-with-column-filtering">Example: CSV Data Sources with Column Filtering</h3>
+<div class="highlight"><span class="filename">diffit row csv dropping a column from the symmetric differential engine</span><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>venv/bin/diffit row --drop col02 csv --csv-separator <span class="s1">&#39;;&#39;</span> /tmp/Dummy.json docker/files/data/left docker/files/data/right
+</code></pre></div>
+<div class="highlight"><span class="filename">Result</span><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>+-----+-----------+----------+
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="p">|</span>col01<span class="p">|</span>col03      <span class="p">|</span>diffit_ref<span class="p">|</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>+-----+-----------+----------+
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="p">|</span><span class="m">8</span>    <span class="p">|</span>col03_val08<span class="p">|</span>left      <span class="p">|</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="p">|</span><span class="m">8</span>    <span class="p">|</span>col03_valYY<span class="p">|</span>right     <span class="p">|</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="p">|</span><span class="m">9</span>    <span class="p">|</span>col03_val09<span class="p">|</span>right     <span class="p">|</span>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>+-----+-----------+----------+
 </code></pre></div>
 <p>Multiple columns can be added to the <code>drop</code> switch separated by spaces. For example:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>... --drop col01 col02 ... col&lt;n&gt; --
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>... --drop col01 --drop col02 ... --drop &lt;col_n&gt; 
 </code></pre></div></p>
-<h3 id="example-column-value-range-filtering">Example: Column Value Range Filtering</h3>
+<div class="highlight"><span class="filename">Dropping multiple columns from symmetric differential engine</span><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>venv/bin/diffit row --drop col02 --drop col03 csv --csv-separator <span class="s1">&#39;;&#39;</span> /tmp/Dummy.json docker/files/data/left docker/files/data/right
+</code></pre></div>
+<div class="highlight"><span class="filename">Result</span><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>+-----+----------+
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="p">|</span>col01<span class="p">|</span>diffit_ref<span class="p">|</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>+-----+----------+
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="p">|</span><span class="m">9</span>    <span class="p">|</span>right     <span class="p">|</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>+-----+----------+
+</code></pre></div>
+<h2 id="column-value-range-filtering">Column Value Range Filtering</h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Only <a href="pyspark.sql.types.IntegerType"><code>pyspark.sql.types.IntegerType</code></a>  is currently supported.</p>
+<p>Only <a href="https://spark.apache.org/docs/3.1.1/api/python/reference/api/pyspark.sql.types.IntegerType.html"><code>pyspark.sql.types.IntegerType</code></a> is currently supported.</p>
 </div>
 <p>Filtering can be useful to limit <code>diffit</code> to a subset of the original Spark SQL DataFrame. For example,
 we can limit the test data sources under <code>docker/files/data/left</code> to remove <code>col01</code> values <code>3</code> and above as follows:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>venv/bin/diffit row --output /tmp/out --range col01 --lower <span class="m">1</span> --upper <span class="m">2</span> -- Dummy docker/files/data/left docker/files/data/right
+<h3 id="example-csv-data-sources-with-output-reduced-through-range-filtering">Example: CSV Data Sources with Output Reduced through Range Filtering</h3>
+<div class="highlight"><span class="filename">Column range filtering</span><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>venv/bin/diffit row --range col01 --lower <span class="m">1</span> --upper <span class="m">2</span> csv --csv-separator <span class="s1">&#39;;&#39;</span> /tmp/Dummy.json docker/files/data/left docker/files/data/right
 </code></pre></div>
-<p>To view the results:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>make pyspark
-</code></pre></div></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>&gt;&gt;&gt; <span class="nv">df</span> <span class="o">=</span> spark.read.parquet<span class="o">(</span><span class="s1">&#39;/tmp/out&#39;</span><span class="o">)</span>
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>&gt;&gt;&gt; df.orderBy<span class="o">(</span><span class="s1">&#39;col01&#39;</span><span class="o">)</span>.show<span class="o">()</span>
-<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>+-----+-----------+----------+
-<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="p">|</span>col01<span class="p">|</span>      col02<span class="p">|</span>diffit_ref<span class="p">|</span>
-<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>+-----+-----------+----------+
-<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="p">|</span>    <span class="m">2</span><span class="p">|</span>col02_valXX<span class="p">|</span>     right<span class="p">|</span>
-<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="p">|</span>    <span class="m">2</span><span class="p">|</span>col02_val02<span class="p">|</span>      left<span class="p">|</span>
-<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>+-----+-----------+----------+
+<div class="highlight"><span class="filename">Result</span><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>+-----+-----------+-----------+----------+
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="p">|</span>col01<span class="p">|</span>col02      <span class="p">|</span>col03      <span class="p">|</span>diffit_ref<span class="p">|</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>+-----+-----------+-----------+----------+
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="p">|</span><span class="m">2</span>    <span class="p">|</span>col02_val02<span class="p">|</span>col03_val02<span class="p">|</span>left      <span class="p">|</span>
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="p">|</span><span class="m">2</span>    <span class="p">|</span>col02_valXX<span class="p">|</span>col03_val02<span class="p">|</span>right     <span class="p">|</span>
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>+-----+-----------+-----------+----------
 </code></pre></div>
 
 
@@ -700,7 +840,7 @@ we can limit the test data sources under <code>docker/files/data/left</code> to 
     <nav class="md-footer__inner md-grid" aria-label="Footer" >
       
         
-        <a href="../schema/" class="md-footer__link md-footer__link--prev" aria-label="Previous: diffit schema" rel="prev">
+        <a href="../../" class="md-footer__link md-footer__link--prev" aria-label="Previous: diffit Tooling" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
           </div>
@@ -709,7 +849,7 @@ we can limit the test data sources under <code>docker/files/data/left</code> to 
               <span class="md-footer__direction">
                 Previous
               </span>
-              diffit schema
+              diffit Tooling
             </div>
           </div>
         </a>

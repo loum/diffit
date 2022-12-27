@@ -8,14 +8,14 @@
       
       
       
-        <link rel="canonical" href="https://loum.github.io/diffit/utilities/">
+        <link rel="canonical" href="https://loum.github.io/diffit/containerisation/">
       
       <link rel="icon" href="../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.10">
     
     
       
-        <title>diffit Tooling - Diffit</title>
+        <title>Scaling out - Diffit</title>
       
     
     
@@ -68,7 +68,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#diffit-tooling" class="md-skip">
+        <a href="#scaling-out-diffit" class="md-skip">
           Skip to content
         </a>
       
@@ -101,7 +101,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              diffit Tooling
+              Scaling out
             
           </span>
         </div>
@@ -209,15 +209,13 @@
         
   
   
-    
-  
 
 
   
   
   
     <li class="md-tabs__item">
-      <a href="./" class="md-tabs__link md-tabs__link--active">
+      <a href="../utilities/" class="md-tabs__link">
         Utilities
       </a>
     </li>
@@ -227,10 +225,12 @@
         
   
   
+    
+  
 
 
   <li class="md-tabs__item">
-    <a href="../containerisation/" class="md-tabs__link">
+    <a href="./" class="md-tabs__link md-tabs__link--active">
       Scaling out
     </a>
   </li>
@@ -304,14 +304,12 @@
 
   
   
-    
-  
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
       
       
       
@@ -332,52 +330,11 @@
               
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          diffit Tooling
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../utilities/" class="md-nav__link">
         diffit Tooling
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
-    Usage
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -415,7 +372,7 @@
   
   
     <li class="md-nav__item">
-      <a href="diffit/row/" class="md-nav__link">
+      <a href="../utilities/diffit/row/" class="md-nav__link">
         diffit row
       </a>
     </li>
@@ -429,7 +386,7 @@
   
   
     <li class="md-nav__item">
-      <a href="diffit/analyse/" class="md-nav__link">
+      <a href="../utilities/diffit/analyse/" class="md-nav__link">
         diffit analyse
       </a>
     </li>
@@ -443,7 +400,7 @@
   
   
     <li class="md-nav__item">
-      <a href="diffit/columns/" class="md-nav__link">
+      <a href="../utilities/diffit/columns/" class="md-nav__link">
         diffit columns
       </a>
     </li>
@@ -457,7 +414,7 @@
   
   
     <li class="md-nav__item">
-      <a href="diffit/convert/" class="md-nav__link">
+      <a href="../utilities/diffit/convert/" class="md-nav__link">
         diffit convert
       </a>
     </li>
@@ -484,11 +441,72 @@
 
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../containerisation/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Scaling out
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Scaling out
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#diffit-container-image" class="md-nav__link">
+    Diffit Container Image
+  </a>
+  
+    <nav class="md-nav" aria-label="Diffit Container Image">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#manual-build-of-the-diffit-container-image" class="md-nav__link">
+    Manual Build of the Diffit Container Image
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#running-jobs-on-the-diffit-container-image" class="md-nav__link">
+    Running jobs on the Diffit Container Image
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -520,9 +538,29 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
-    Usage
+  <a href="#diffit-container-image" class="md-nav__link">
+    Diffit Container Image
   </a>
+  
+    <nav class="md-nav" aria-label="Diffit Container Image">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#manual-build-of-the-diffit-container-image" class="md-nav__link">
+    Manual Build of the Diffit Container Image
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#running-jobs-on-the-diffit-container-image" class="md-nav__link">
+    Running jobs on the Diffit Container Image
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -541,29 +579,74 @@
                   
 
 
-<h1 id="diffit-tooling">diffit Tooling</h1>
-<p><code>diffit</code> provides a command line utility that you can use to invoke the Apache Spark-based
-symmetric differential engine.</p>
-<h2 id="usage">Usage</h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>venv/bin/diffit --help
+<h1 id="scaling-out-diffit">Scaling out Diffit</h1>
+<p>Diffit can be scaled out to perform symmetric difference analysis across massive data sets. This
+is a natural extension as Diffit is built onto of the <a href="https://spark.apache.org/">Apache Spark compute
+framework</a></p>
+<h2 id="diffit-container-image">Diffit Container Image</h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Diffit image container to be provided via <a href="https://hub.docker.com/">Docker Hub</a> shortly.</p>
+</div>
+<h3 id="manual-build-of-the-diffit-container-image">Manual Build of the Diffit Container Image</h3>
+<p>The Diffit image container is built on top of this <a href="https://github.com/loum/spark-pseudo">Spark base image</a>
+that runs over YARN on Pseudo Distributed Hadoop. The goal here is to establish a pathway into a
+larger Spark cluster.</p>
+<p>The container image build process is started with:
+<div class="highlight"><span class="filename">Starting the Diffit container image build process</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>make diffit-image-build
+</code></pre></div></p>
+<p>On successful completion, you can search for the newly created container image with:
+<div class="highlight"><span class="filename">Container image search</span><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>make image-search
+</code></pre></div></p>
+<h3 id="running-jobs-on-the-diffit-container-image">Running jobs on the Diffit Container Image</h3>
+<p>Refer to the <a href="https://github.com/loum/diffit/blob/main/Makefile">Diffit <code>Makefile</code></a> for the
+targets used in this section.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>All Makester Docker subsystem targets can be listed with:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>make docker-help<span class="sb">`</span>
+</code></pre></div></p>
+</div>
+<p>Here is how the <a href="../utilities/diffit/row/#example-csv-data-sources"><code>diffit row csv</code> example</a>
+would be run in the container image:
+<div class="highlight"><span class="filename">Running diffit compute on container image</span><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nv">CMD</span><span class="o">=</span><span class="s2">&quot;row csv --output file:///tmp/data/out --csv-separator &#39;;&#39; /tmp/schema/Dummy.json file:///tmp/data/left file:///tmp/data/right&quot;</span> make container-run
+</code></pre></div></p>
+<p>This is the actual <code>docker</code> command:
+<div class="highlight"><span class="filename">Diffit container run make target</span><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>make container-run
+</code></pre></div></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>/usr/bin/docker run --rm -d<span class="se">\</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a> --platform linux/amd64<span class="se">\</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a> --publish <span class="m">8032</span>:8032<span class="se">\</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a> --publish <span class="m">7077</span>:7077<span class="se">\</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a> --publish <span class="m">8080</span>:8080<span class="se">\</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a> --publish <span class="m">8088</span>:8088<span class="se">\</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a> --publish <span class="m">8042</span>:8042<span class="se">\</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a> --publish <span class="m">18080</span>:18080<span class="se">\</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a> --env <span class="nv">CORE_SITE__HADOOP_TMP_DIR</span><span class="o">=</span>/tmp<span class="se">\</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a> --env <span class="nv">HDFS_SITE__DFS_REPLICATION</span><span class="o">=</span><span class="m">1</span><span class="se">\</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a> --env <span class="nv">YARN_SITE__YARN_NODEMANAGER_RESOURCE_DETECT_HARDWARE_CAPABILITIES</span><span class="o">=</span>true<span class="se">\</span>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a> --env <span class="nv">YARN_SITE__YARN_LOG_AGGREGATION_ENABLE</span><span class="o">=</span>true<span class="se">\</span>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a> --env <span class="nv">OUTPUT_PATH</span><span class="o">=</span>file:///tmp/data/out<span class="se">\</span>
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a> --env <span class="nv">NUM_EXECUTORS</span><span class="o">=</span><span class="m">6</span><span class="se">\</span>
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a> --env <span class="nv">EXECUTOR_CORES</span><span class="o">=</span><span class="m">2</span><span class="se">\</span>
+<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a> --env <span class="nv">EXECUTOR_MEMORY</span><span class="o">=</span>768m<span class="se">\</span>
+<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a> --volume <span class="nv">$HOME</span>/diffit/docker/files/python:/data<span class="se">\</span>
+<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a> --volume <span class="nv">$HOME</span>/diffit/docker/files/schema:/tmp/schema<span class="se">\</span>
+<a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a> --volume <span class="nv">$HOME</span>/diffit/docker/files/data:/tmp/data<span class="se">\</span>
+<a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a> --hostname diffit-spark<span class="se">\</span>
+<a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a> --name diffit-spark<span class="se">\</span>
+<a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a> diffit:0.1.2a4-1<span class="se">\</span>
+<a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a> row csv --output file:///tmp/data/out --csv-separator <span class="s1">&#39;;&#39;</span> /tmp/schema/Dummy.json file:///tmp/data/left file:///tmp/data/right
 </code></pre></div>
-<div class="highlight"><span class="filename">diffit help</span><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>usage: diffit <span class="o">[</span>-h<span class="o">]</span> <span class="o">[</span>-m DRIVER_MEMORY<span class="o">]</span> <span class="o">{</span>schema,row,analyse,columns,convert<span class="o">}</span> ...
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>Diff-it Data Diff tool
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>positional arguments:
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>  <span class="o">{</span>schema,row,analyse,columns,convert<span class="o">}</span>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    schema              Diffit schema control
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>    row                 DataFrame row-level diff
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>    analyse             Diffit rows unique to <span class="nb">source</span> DataFrame
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>    columns             Report only the columns that are different
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>    convert             CSV to parquet
-<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>
-<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>optional arguments:
-<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>  -h, --help            show this <span class="nb">help</span> message and <span class="nb">exit</span>
-<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>  -m DRIVER_MEMORY, --driver_memory DRIVER_MEMORY
-<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>                        Set Spark driver memory <span class="o">(</span>default 2g<span class="o">)</span>
-</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Container image execution is ephemeral. The <code>--output</code> switch ensures that the
+results persist on the file system via the mount provided by
+<code>--volume $HOME/diffit/docker/files/data:/tmp/data</code></p>
+</div>
+<p>Progress logs of the container execution can be monitored as follows:
+<div class="highlight"><span class="filename">diffit on Spark pseudo-distributed logging</span><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>make container-logs
+</code></pre></div></p>
 
 
 
@@ -584,7 +667,7 @@ symmetric differential engine.</p>
     <nav class="md-footer__inner md-grid" aria-label="Footer" >
       
         
-        <a href="../getting-started/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Getting started" rel="prev">
+        <a href="../utilities/diffit/convert/" class="md-footer__link md-footer__link--prev" aria-label="Previous: diffit convert" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
           </div>
@@ -593,26 +676,11 @@ symmetric differential engine.</p>
               <span class="md-footer__direction">
                 Previous
               </span>
-              Getting started
+              diffit convert
             </div>
           </div>
         </a>
       
-      
-        
-        <a href="diffit/row/" class="md-footer__link md-footer__link--next" aria-label="Next: diffit row" rel="next">
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Next
-              </span>
-              diffit row
-            </div>
-          </div>
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
-          </div>
-        </a>
       
     </nav>
   

@@ -68,7 +68,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#apache-spark-sql-dataframe-symmetric-differ" class="md-skip">
+        <a href="#a-spark-sql-dataframe-symmetric-difference-engine" class="md-skip">
           Skip to content
         </a>
       
@@ -224,6 +224,18 @@
   
 
       
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="containerisation/" class="md-tabs__link">
+      Scaling out
+    </a>
+  </li>
+
+      
     </ul>
   </div>
 </nav>
@@ -370,20 +382,6 @@
   
   
     <li class="md-nav__item">
-      <a href="utilities/diffit/schema/" class="md-nav__link">
-        diffit schema
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
       <a href="utilities/diffit/row/" class="md-nav__link">
         diffit row
       </a>
@@ -447,6 +445,21 @@
   
 
     
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="containerisation/" class="md-nav__link">
+        Scaling out
+      </a>
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
@@ -480,7 +493,13 @@
                   
 
 
-<h1 id="apache-spark-sql-dataframe-symmetric-differ">Apache Spark SQL DataFrame Symmetric Differ</h1>
+<h1 id="a-spark-sql-dataframe-symmetric-difference-engine">A Spark SQL DataFrame Symmetric Difference Engine</h1>
+<p>The concept of <a href="https://en.wikipedia.org/wiki/Symmetric_difference">symmetric difference</a> in
+mathematics defines the set of elements that do not appear in either of the sets. It is leveraged
+within the RDBMS community as a strategy for identifying differences across two tables. <code>diffit</code>
+extends this capability to Apache Spark SQL DataFrames.</p>
+<p>Diffit was created in response to challenges around validating massive data sets that use big data
+file formats. However, Diffit is also flexible enough to be used within your unit test framework.</p>
 
 
 

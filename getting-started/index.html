@@ -224,6 +224,18 @@
   
 
       
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../containerisation/" class="md-tabs__link">
+      Scaling out
+    </a>
+  </li>
+
+      
     </ul>
   </div>
 </nav>
@@ -288,9 +300,40 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Getting started
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         Getting started
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#unit-testing" class="md-nav__link">
+    Unit Testing
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -370,20 +413,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../utilities/diffit/schema/" class="md-nav__link">
-        diffit schema
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../utilities/diffit/row/" class="md-nav__link">
         diffit row
       </a>
@@ -447,6 +476,21 @@
   
 
     
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../containerisation/" class="md-nav__link">
+        Scaling out
+      </a>
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
@@ -467,6 +511,21 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#unit-testing" class="md-nav__link">
+    Unit Testing
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -481,6 +540,59 @@
 
 
 <h1 id="getting-started">Getting started</h1>
+<p>Diffit can be used to validate PySpark transformation and aggregation logic at the Spark SQL
+DataFrame level. The <code>diffit</code> package can be installed by adding the following to your project's
+<code>setup.cfg</code>:
+<div class="highlight"><span class="filename">setup.cfg as an extras require</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="o">[</span>options.extras_require<span class="o">]</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nv">dev</span> <span class="o">=</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    diffit @ git+https://github.com/loum/diffit.git@&lt;release_version&gt;
+</code></pre></div></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>See <a href="https://github.com/loum/diffit/releases">Diffit releases</a> for latest version.</p>
+</div>
+<p>Editable installation can be achieved as follows:
+<div class="highlight"><span class="filename">pip editable install</span><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>pip install -e .<span class="o">[</span>dev<span class="o">]</span>
+</code></pre></div></p>
+<h2 id="unit-testing">Unit Testing</h2>
+<p>The following example demonstrates how a complex aggregation with multiple Spark SQL DataFrame
+source data sets can be validated against an expected state:
+<div class="highlight"><span class="filename">Unit testing a complex aggregation</span><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>def test_aggregate<span class="o">(</span>diagnostic_recursive: DataFrame,
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>                   diagnostic_static: DataFrame,
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>                   cross_strategy_positions: DataFrame,
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>                   portfolio_mapping: DataFrame,
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>                   diagnostic_reporting: DataFrame<span class="o">)</span>:
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    <span class="s2">&quot;&quot;&quot;Diagnostic aggregate with static lookups.</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="s2">    &quot;&quot;&quot;</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>    <span class="c1"># Given a Diagnostic extended data set</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>    <span class="c1"># diagnostic_recursive</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>    <span class="c1"># and a Diagnostic static lookup data set</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>    <span class="c1"># diagnostic_static</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>    <span class="c1"># and the Cross Strategy Positions data set</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>    <span class="c1"># cross_strategy_positions</span>
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>    <span class="c1"># and the Portfolio Mapping data set</span>
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>    <span class="c1"># portfolio_mapping</span>
+<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>
+<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a>    <span class="c1"># when I aggregate to produce a consumable data set for Diagnostic</span>
+<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a>    <span class="nv">received</span> <span class="o">=</span> pgc.liquidity.reporting.diagnostic.aggregate<span class="o">(</span>diagnostic_recursive,
+<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a>                                                            diagnostic_static,
+<a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a>                                                            cross_strategy_positions,
+<a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a>                                                            portfolio_mapping<span class="o">)</span>
+<a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a>
+<a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a>    <span class="c1"># then the new DataFrame should align with the control Diagnostic consumed data set</span>
+<a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a>    <span class="nv">msg</span> <span class="o">=</span> <span class="s1">&#39;Diagnostic consumed data set error&#39;</span>
+<a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a>    diffs: pyspark.sql.DataFrame <span class="o">=</span> diffit.reporter.row_level<span class="o">(</span><span class="nv">left</span><span class="o">=</span>diagnostic_reporting, <span class="nv">right</span><span class="o">=</span>received<span class="o">)</span>
+<a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a>    assert not <span class="o">[</span>list<span class="o">(</span>r<span class="o">)</span> <span class="k">for</span> r <span class="k">in</span> diffs.collect<span class="o">()]</span>, msg
+</code></pre></div></p>
+<p>The <code>diffit</code> call of interest is <code>diffit.reporter.row_level</code>.Here a symmetric difference is performed
+against the <code>left</code> Spark SQL DataFrame named <code>diagnostic_reporting</code> and the <code>received</code> DataFrame
+produced by the aggregation output.</p>
+<p>For brievity, the <code>assert</code> simply validates that the <code>diff</code> variable does not contain content. This
+indicates that there is a problem and the test will fail. As <code>diff</code> is just a Spark SQL DataFrame
+itself, you can manipulate <code>diff</code> further in your analysis to identify the problem.</p>
 
 
 

@@ -224,6 +224,18 @@
   
 
       
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../../containerisation/" class="md-tabs__link">
+      Scaling out
+    </a>
+  </li>
+
+      
     </ul>
   </div>
 </nav>
@@ -357,20 +369,6 @@
           diffit
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../schema/" class="md-nav__link">
-        diffit schema
-      </a>
-    </li>
-  
-
-            
           
             
               
@@ -522,6 +520,21 @@
   
 
     
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../containerisation/" class="md-nav__link">
+        Scaling out
+      </a>
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
@@ -642,49 +655,54 @@
 <p><code>diffit analyse distinct</code> provides a way to report on rows from a Diffit extract that
 only appear in a specific target data source.</p>
 <h3 id="example-analyse-rows-unique-to-each-spark-dataframe">Example: Analyse Rows Unique to Each Spark DataFrame</h3>
-<div class="highlight"><span class="filename">Reset the Diffit extract</span><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>venv/bin/diffit row --output /tmp/out Dummy docker/files/data/left docker/files/data/right
-</code></pre></div>
+<p>This example reuses the <a href="../row#example-csv-data-sources">Dummy.json schema</a> from a previous example.
+<div class="highlight"><span class="filename">Reset the Diffit extract</span><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>venv/bin/diffit row tmp/out csv --csv-separator <span class="s1">&#39;;&#39;</span> /tmp/Dummy.json docker/files/data/left docker/files/data/right
+</code></pre></div></p>
 <div class="highlight"><span class="filename">The key setting, col01, acts as the GROUP BY predicate</span><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>venv/bin/diffit analyse distinct col01 /tmp/out
 </code></pre></div>
-<div class="highlight"><span class="filename">Analysing distinct rows from left source DataFrame</span><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>+-----+-----+----------+
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="p">|</span>col01<span class="p">|</span>col02<span class="p">|</span>diffit_ref<span class="p">|</span>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>+-----+-----+----------+
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>+-----+-----+----------+
-</code></pre></div>
-<div class="highlight"><span class="filename">Analysing distinct rows from right source DataFrame</span><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>+-----+-----------+----------+
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="p">|</span>col01<span class="p">|</span>col02      <span class="p">|</span>diffit_ref<span class="p">|</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>+-----+-----------+----------+
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="p">|</span><span class="m">9</span>    <span class="p">|</span>col02_val09<span class="p">|</span>right     <span class="p">|</span>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>+-----+-----------+----------+
+<div class="highlight"><span class="filename">Combined diffit analyse distinct output</span><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1">### Analysing distinct rows from &quot;left&quot; source DataFrame</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>+-----+-----+-----+----------+
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="p">|</span>col01<span class="p">|</span>col02<span class="p">|</span>col03<span class="p">|</span>diffit_ref<span class="p">|</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>+-----+-----+-----+----------+
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>+-----+-----+-----+----------+
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="c1">### Analysing distinct rows from &quot;right&quot; source DataFrame</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>+-----+-----------+-----------+----------+
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="p">|</span>col01<span class="p">|</span>col02      <span class="p">|</span>col03      <span class="p">|</span>diffit_ref<span class="p">|</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>+-----+-----------+-----------+----------+
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="p">|</span><span class="m">9</span>    <span class="p">|</span>col02_val09<span class="p">|</span>col03_val09<span class="p">|</span>right     <span class="p">|</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>+-----+-----------+-----------+----------+
 </code></pre></div>
 <p>A Diffit extract can be limited with the <code>--diffit_ref</code> switch. For example, to only show
 distinct Diffit extract records from the <code>right</code> data source:
-<div class="highlight"><span class="filename">Analysing distinct rows from right source Spark DataFrame</span><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>venv/bin/diffit analyse --diffit_ref right distinct col01 /tmp/out
+<div class="highlight"><span class="filename">Analysing distinct rows from right source Spark DataFrame</span><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>venv/bin/diffit analyse --diffit_ref right distinct col01 /tmp/out
 </code></pre></div></p>
-<div class="highlight"><span class="filename">Result</span><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>+-----+-----------+----------+
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="p">|</span>col01<span class="p">|</span>col02      <span class="p">|</span>diffit_ref<span class="p">|</span>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>+-----+-----------+----------+
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="p">|</span><span class="m">9</span>    <span class="p">|</span>col02_val09<span class="p">|</span>right     <span class="p">|</span>
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>+-----+-----------+----------+
+<div class="highlight"><span class="filename">Result</span><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1">### Analysing distinct rows from &quot;right&quot; source DataFrame</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>+-----+-----------+-----------+----------+
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="p">|</span>col01<span class="p">|</span>col02      <span class="p">|</span>col03      <span class="p">|</span>diffit_ref<span class="p">|</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>+-----+-----------+-----------+----------+
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="p">|</span><span class="m">9</span>    <span class="p">|</span>col02_val09<span class="p">|</span>col03_val09<span class="p">|</span>right     <span class="p">|</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>+-----+-----------+-----------+----------+
 </code></pre></div>
 <p>The default number of rows returned is <code>20</code>. This can be adjusted with the <code>--hits</code> switch:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>venv/bin/diffit analyse --diffit_ref right --hits <span class="m">5</span> distinct col01 /tmp/out
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>venv/bin/diffit analyse --diffit_ref right --hits <span class="m">5</span> distinct col01 /tmp/out
 </code></pre></div></p>
 <h2 id="diffit-analyse-altered"><code>diffit analyse altered</code></h2>
 <p><code>diffit analyse distinct</code> provides a way to report on Diffit extract rows that appear in both target
 data sources and flagged as being different.</p>
 <h3 id="example">Example</h3>
 <p>Given a Diffit extract at <code>/tmp/out</code> that defines a schema column <code>col01</code> that can act as the unique constraint:</p>
-<div class="highlight"><span class="filename">Reset the Diffit extract</span><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>venv/bin/diffit row --output /tmp/out Dummy docker/files/data/left docker/files/data/right
+<div class="highlight"><span class="filename">Reset the Diffit extract</span><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>venv/bin/diffit row --output /tmp/out csv --csv-separator <span class="s1">&#39;;&#39;</span> /tmp/Dummy.json docker/files/data/left docker/files/data/right
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>venv/bin/diffit analyse altered col01 /tmp/out
+<div class="highlight"><span class="filename">diffit analyse altered command</span><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>venv/bin/diffit analyse altered col01 /tmp/out
 </code></pre></div>
-<div class="highlight"><span class="filename">Result</span><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>+-----+-----------+----------+
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="p">|</span>col01<span class="p">|</span>col02      <span class="p">|</span>diffit_ref<span class="p">|</span>
-<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>+-----+-----------+----------+
-<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="p">|</span><span class="m">2</span>    <span class="p">|</span>col02_val02<span class="p">|</span>left      <span class="p">|</span>
-<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="p">|</span><span class="m">2</span>    <span class="p">|</span>col02_valXX<span class="p">|</span>right     <span class="p">|</span>
-<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>+-----+-----------+----------+
+<div class="highlight"><span class="filename">Result</span><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>+-----+-----------+-----------+----------+
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="p">|</span>col01<span class="p">|</span>col02      <span class="p">|</span>col03      <span class="p">|</span>diffit_ref<span class="p">|</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>+-----+-----------+-----------+----------+
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="p">|</span><span class="m">2</span>    <span class="p">|</span>col02_val02<span class="p">|</span>col03_val02<span class="p">|</span>left      <span class="p">|</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="p">|</span><span class="m">2</span>    <span class="p">|</span>col02_valXX<span class="p">|</span>col03_val02<span class="p">|</span>right     <span class="p">|</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="p">|</span><span class="m">8</span>    <span class="p">|</span>col02_val08<span class="p">|</span>col03_val08<span class="p">|</span>left      <span class="p">|</span>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="p">|</span><span class="m">8</span>    <span class="p">|</span>col02_val08<span class="p">|</span>col03_valYY<span class="p">|</span>right     <span class="p">|</span>
 </code></pre></div>
 
 
