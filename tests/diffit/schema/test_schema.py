@@ -1,8 +1,11 @@
 """:mod:`diffit.schema` unit test cases.
 
 """
+from typing import Text
 import json
 import tempfile
+import os
+
 from pyspark.sql.types import StructType
 
 import diffit.schema
@@ -41,50 +44,32 @@ def test_interpret_schema(working_dir):
     assert isinstance(received, StructType), msg
 
 
-def test_names():
-    """Get the supported schemas.
+def test_interpret_schema_from_missing_file(working_dir: Text):
+    """Gracefully fail a pyspark.sql.types.StructType interpretation from missing file.
     """
-    # Given a set of Spark DataFrame JSON-type schema definitions
-    schemas = [x[0][0] for x in diffit.schema.names()]
+    # Given a path to a missing JSON schema file
+    path_to_schema = os.path.join(working_dir, 'Missing.json')
 
-    # I should be able to retrieve the names
-    msg = 'Schema names error'
-    expected = ['Dummy']
-    assert sorted(schemas) == expected, msg
+    # when I interpret the schema definition
+    received = diffit.schema.interpret_schema(path_to_schema)
+
+    # then the schema interpreter should gracefully fail and return None
+    msg = 'Schema interpretation on missing file should return None'
+    assert received is None, msg
 
 
-def test_names_no_schema_definitions_available(working_dir):
-    """Get the supported schemas: no schema definitions.
+def test_interpret_schema_from_bad_json(working_dir: Text):
+    """Gracefully fail a pyspark.sql.types.StructType interpretation from bad JSON.
     """
-    # Given an empty set of Spark DataFrame JSON-type schema definitions
-    schemas = list(diffit.schema.names(working_dir))
+    # Given a path to an invalid JSON schema file
+    path_to_schema = None
+    with tempfile.NamedTemporaryFile(mode='w', dir=working_dir, delete=False) as _fh:
+        _fh.write('["Hello", 3.14, true, ]')
+        path_to_schema = _fh.name
 
-    # no names should be returned (without error)
-    msg = 'Schema names error: no schema definitions'
-    assert not schemas, msg
+    # when I interpret the schema definition
+    received = diffit.schema.interpret_schema(path_to_schema)
 
-
-def test_get():
-    """Get a known schema definition.
-    """
-    # Given a valid and supported schema definition name
-    schema_name = 'Dummy'
-
-    # when I try to source the schema as a Spark StructType
-    received = diffit.schema.get(schema_name)
-
-    # then as a system I should receive the correct instance type
-    msg = 'Source Spark Schema not a Spark StructType'
-    assert isinstance(received, StructType), msg
-
-
-def test_get_no_match():
-    """Get a known schema definition: no match.
-    """
-    # Given an unsupported schema definition name
-    schema_name = 'Banana'
-
-    # when I try to source the schema as a Spark StructType
-    # then as a system I should receive the correct instance type
-    msg = 'Source Spark Schema not a Spark StructType'
-    assert not diffit.schema.get(schema_name), msg
+    # then the schema interpreter should gracefully fail and return None
+    msg = 'Schema interpretation on file with bad JSON should return None'
+    assert received is None, msg

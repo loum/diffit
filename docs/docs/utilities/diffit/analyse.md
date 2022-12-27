@@ -37,8 +37,9 @@ options:
 only appear in a specific target data source.
 
 ### Example: Analyse Rows Unique to Each Spark DataFrame
+This example reuses the [Dummy.json schema](../row#example-csv-data-sources) from a previous example.
 ``` sh title="Reset the Diffit extract"
-venv/bin/diffit row --output /tmp/out csv --csv-separator ';' Dummy docker/files/data/left docker/files/data/right
+venv/bin/diffit row tmp/out csv --csv-separator ';' /tmp/Dummy.json docker/files/data/left docker/files/data/right
 ```
 
 ``` sh title="The key setting, col01, acts as the GROUP BY predicate"
@@ -88,10 +89,10 @@ data sources and flagged as being different.
 Given a Diffit extract at `/tmp/out` that defines a schema column `col01` that can act as the unique constraint:
 
 ``` sh title="Reset the Diffit extract"
-venv/bin/diffit row --output /tmp/out csv --csv-separator ';' Dummy docker/files/data/left docker/files/data/right
+venv/bin/diffit row --output /tmp/out csv --csv-separator ';' /tmp/Dummy.json docker/files/data/left docker/files/data/right
 ```
 
-``` sh
+``` sh title="diffit analyse altered command"
 venv/bin/diffit analyse altered col01 /tmp/out
 ```
 

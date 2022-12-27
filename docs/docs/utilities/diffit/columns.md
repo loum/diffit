@@ -26,7 +26,7 @@ options:
 
 ## Example
 ``` sh title="Reset the Diffit extract"
-venv/bin/diffit row --output /tmp/out csv --csv-separator ';' Dummy docker/files/data/left docker/files/data/right
+venv/bin/diffit row --output /tmp/out csv --csv-separator ';' /tmp/Dummy.json docker/files/data/left docker/files/data/right
 ```
 
 The Diffit extract at `/tmp/out` features:
