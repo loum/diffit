@@ -5,7 +5,7 @@ Convert as CSV data source with schema file to
 to with a given compression (default `snappy`)
 
 ## Usage
-``` sh
+``` sh title="diffit convert help"
 venv/bin/diffit convert --help
 ```
 

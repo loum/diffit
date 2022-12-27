@@ -9,9 +9,8 @@ import pyspark
 
 import diffit
 import diffit.datasources.spark
-import diffit.schema
-import diffit.files
 import diffit.reporter
+import diffit.schema
 
 
 DESCRIPTION = """Diff-it Data Diff tool"""
@@ -28,12 +27,6 @@ def main():
 
     # Add sub-command support.
     subparsers = parser.add_subparsers()
-
-    # 'schema' subcommand.
-    schema_parser = subparsers.add_parser('schema', help='Diffit schema control')
-    schema_subparsers = schema_parser.add_subparsers(title='sub-commands', dest='subcommand')
-    schema_subparsers.add_parser('list', help='List supported schemas')
-    schema_parser.set_defaults(func=schema_list)
 
     # 'row' subcommand.
     row_parser = subparsers.add_parser('row', help='DataFrame row-level diff')
@@ -56,16 +49,16 @@ def main():
                                 '--csv-header',
                                 help='CSV contains header',
                                 action='store_true')
-    row_parser_csv.add_argument('schema', help='Report CSV schema')
+    row_parser_csv.add_argument('schema', help='Path to CSV schema in JSON format')
     row_parser_csv.add_argument('left_data_source', help='"Left" CSV source location')
     row_parser_csv.add_argument('right_data_source', help='"Right" CSV source location')
-    row_parser_csv.set_defaults(func=row)
+    row_parser_csv.set_defaults(func=row_csv)
 
     # 'row parquet' subcommand.
     row_parser_parquet = row_subparser.add_parser('parquet', help='Parquet row-level')
     row_parser_parquet.add_argument('left_data_source', help='"Left" Parquet source location')
     row_parser_parquet.add_argument('right_data_source', help='"Right" Parquet source location')
-    row_parser_parquet.set_defaults(func=row)
+    row_parser_parquet.set_defaults(func=row_parquet)
 
     # 'analyse' subcommand.
     analyse_parser = subparsers.add_parser('analyse',
@@ -142,36 +135,41 @@ def main():
     func(args)
 
 
-def schema_list(args): # pylint: disable=unused-argument
-    """Diffit schema list.
+def row_csv(args):
+    """Row-level CSV pre-processing.
 
     """
-    for index, schema in enumerate(sorted(diffit.schema.names()), start=1):
-        print(f'{index}. {schema[0][0]}')
+    schema = diffit.schema.interpret_schema(args.schema)
+
+    if schema is not None:
+        spark = diffit.datasources.spark.spark_session(conf=args.conf)
+        left = diffit.datasources.spark.csv_reader(spark,
+                                                   schema,
+                                                   args.left_data_source,
+                                                   delimiter=args.csv_separator,
+                                                   header=args.csv_header)
+        right = diffit.datasources.spark.csv_reader(spark,
+                                                    schema,
+                                                    args.right_data_source,
+                                                    delimiter=args.csv_separator,
+                                                    header=args.csv_header)
+        row_report(args, left, right)
 
 
-def row(args):
-    """Report against given schema.
+def row_parquet(args, left: pyspark.sql.DataFrame, right: pyspark.sql.DataFrame):
+    """Row-level parquet pre-processing.
 
     """
     spark = diffit.datasources.spark.spark_session(conf=args.conf)
+    left = diffit.datasources.spark.parquet_reader(spark, args.left_data_source)
+    right = diffit.datasources.spark.parquet_reader(spark, args.right_data_source)
+    row_report(args, left, right)
 
-    if args.schema is None:
-        left = diffit.files.spark_parquet_reader(spark, args.left_data_source)
-        right = diffit.files.spark_parquet_reader(spark, args.right_data_source)
-    else:
-        schema = diffit.schema.get(args.schema)
-        left = diffit.files.spark_csv_reader(spark,
-                                             schema,
-                                             args.left_data_source,
-                                             delimiter=args.csv_separator,
-                                             header=args.csv_header)
-        right = diffit.files.spark_csv_reader(spark,
-                                              schema,
-                                              args.right_data_source,
-                                              delimiter=args.csv_separator,
-                                              header=args.csv_header)
 
+def row_report(args, left: pyspark.sql.DataFrame, right: pyspark.sql.DataFrame):
+    """Row-level reporter.
+
+    """
     range_filter = {
         'column': args.range,
         'lower': args.lower,
@@ -192,7 +190,7 @@ def analyse(args):
     """
     spark = diffit.datasources.spark.spark_session(conf=args.conf)
 
-    diffit_df = diffit.files.spark_parquet_reader(spark, args.diffit_out)
+    diffit_df = diffit.datasources.spark.parquet_reader(spark, args.diffit_out)
 
     order = asc
     if args.descending:
@@ -232,7 +230,7 @@ def columns(args):
     """
     spark = diffit.datasources.spark.spark_session(conf=args.conf)
 
-    diffit_df = diffit.files.spark_parquet_reader(spark, args.diffit_out)
+    diffit_df = diffit.datasources.spark.parquet_reader(spark, args.diffit_out)
 
     result = diffit.reporter.altered_rows_column_diffs(diffit_df, args.key, args.val)
     print(f'### {args.key}|{args.val}: '
@@ -245,7 +243,9 @@ def convert(args):
     """
     spark = diffit.datasources.spark.spark_session(conf=args.conf)
 
-    diffit.files.spark_csv_reader(spark, diffit.schema.get(args.schema), args.data_source)\
+    diffit.datasources.spark.csv_reader(spark,
+                                        diffit.schema.interpret_schema(args.schema),
+                                        args.data_source)\
         .repartition(8)\
         .write.mode('overwrite')\
         .option('compression', args.compression)\

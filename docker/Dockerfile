@@ -1,27 +1,31 @@
-ARG UBUNTU_BASE_IMAGE
+# syntax=docker/dockerfile:1.4
+
 ARG SPARK_PSEUDO_BASE_IMAGE
 
 FROM loum/spark-pseudo:$SPARK_PSEUDO_BASE_IMAGE
 
-USER root
-RUN apt-get update && apt-get install -y --no-install-recommends\
- gosu\
- && rm -rf /var/lib/apt/lists/*
+COPY docker/scripts/diffit-bootstrap.sh /diffit-bootstrap.sh
 
-COPY docker/scripts/differ-bootstrap.sh /differ-bootstrap.sh
-COPY docker/scripts/start.sh /start.sh
+ARG RELEASE_VERSION
+WORKDIR /home/hdfs/dist
+COPY dist/diffit-$RELEASE_VERSION-py3-none-any.whl diffit-$RELEASE_VERSION-py3-none-any.whl
+COPY docker/files/python/dependencies.zip /tmp/dependencies.zip
 
-USER hdfs
 WORKDIR /home/hdfs
 
 RUN python -m pip install --user --upgrade pip setuptools
 RUN python -m pip install --user\
  --no-cache-dir\
- backoff
+ backoff\
+ dist/diffit-$RELEASE_VERSION-py3-none-any.whl &&\
+ find .local/lib/python*/site-packages/ -depth\
+   \(\
+     \( -type d -a \( -name test -o -name tests -o -name idle_test \) \) \
+     -o \
+     \( -type f -a \( -name '*.pyc' -o -name '*.pyo' \) \) \
+  \) -exec rm -rf '{}' +;
 
 COPY docker/scripts/backoff /backoff
-COPY src/bin/diff.py /scripts/diff.py
-COPY docker/files/python/dependencies.zip /data/dependencies.zip
 
-USER root
-ENTRYPOINT [ "/differ-bootstrap.sh" ]
+USER hdfs
+ENTRYPOINT [ "/diffit-bootstrap.sh" ]

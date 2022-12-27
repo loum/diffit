@@ -16,11 +16,11 @@ A key characteristic of the Diffit extract is that it features a new column `dif
 the source reference that has caused the row level exception. Typically, this value will be either `left` or `right`.
 
 ## Usage
-``` sh
+``` sh title="diffit row help"
 venv/bin/diffit row --help
 ```
 
-``` sh title="diffit row help"
+``` sh
 usage: diffit row [-h] [-o OUTPUT] [-d [DROP ...]] [-r RANGE] [-L LOWER] [-U UPPER] [-F] {csv,parquet} ...
 
 options:
@@ -46,15 +46,15 @@ sub-commands:
 ## CSV Data Sources
 CSV files will require a schema definition. This needs to be provided as a JSON construct.
 
-``` sh
+``` sh title="diffit row csv help"
 venv/bin/diffit row csv --help
 ```
 
-``` sh title="diffit row csv help"
+``` sh
 usage: diffit row csv [-h] [-s CSV_SEPARATOR] [-E] schema left_data_source right_data_source
 
 positional arguments:
-  schema                Report CSV schema
+  schema                Path to CSV schema in JSON format
   left_data_source      "Left" CSV source location
   right_data_source     "Right" CSV source location
 
@@ -66,7 +66,7 @@ options:
 ```
 
 ### Example: CSV Data Sources
-A sample CSV data set has been provided. The `Dummy` schema is provided as a JSON construct:
+Save the following sample JSON schema definition to `/tmp/Dummy.json`:
 ``` sh title="Example CSV JSON Schema"
 {
     "type": "struct",
@@ -87,9 +87,9 @@ A sample CSV data set has been provided. The `Dummy` schema is provided as a JSO
 }
 ```
 
-. This can be invoked as follows:
-``` sh
-venv/bin/diffit row csv --csv-separator ';' Dummy docker/files/data/left docker/files/data/right
+Next, run the CSV row comparitor:
+``` sh title="diffit row csv command"
+venv/bin/diffit row csv --csv-separator ';' /tmp/Dummy.json docker/files/data/left docker/files/data/right
 ```
 
 ``` sh title="diffit row csv example output"
@@ -106,11 +106,11 @@ venv/bin/diffit row csv --csv-separator ';' Dummy docker/files/data/left docker/
 
 ## Parquet Data Sources
 Take advantage of the nice features of Spark Parquet.
-``` sh 
+``` sh title="diffit row parquet help"
 venv/bin/diffit row parquet --help
 ```
 
-``` sh title="diffit row parquet help"
+``` sh 
 usage: diffit row parquet [-h] left_data_source right_data_source
 
 positional arguments:
@@ -130,7 +130,7 @@ to drop `col02` from the local test sample:
  
 ### Example: CSV Data Sources with Column Filtering
 ``` sh title="diffit row csv dropping a column from the symmetric differential engine"
-venv/bin/diffit row --drop col02 csv --csv-separator ';' Dummy docker/files/data/left docker/files/data/right
+venv/bin/diffit row --drop col02 csv --csv-separator ';' /tmp/Dummy.json docker/files/data/left docker/files/data/right
 ```
 
 ``` sh title="Result"
@@ -149,7 +149,7 @@ Multiple columns can be added to the `drop` switch separated by spaces. For exam
 ```
 
 ``` sh title="Dropping multiple columns from symmetric differential engine"
-venv/bin/diffit row --drop col02 --drop col03 csv --csv-separator ';' Dummy docker/files/data/left docker/files/data/right
+venv/bin/diffit row --drop col02 --drop col03 csv --csv-separator ';' /tmp/Dummy.json docker/files/data/left docker/files/data/right
 ```
 
 ``` sh title="Result"
@@ -169,10 +169,10 @@ we can limit the test data sources under `docker/files/data/left` to remove `col
 
 ### Example: CSV Data Sources with Output Reduced through Range Filtering
 ``` sh title="Column range filtering"
-venv/bin/diffit row --range col01 --lower 1 --upper 2 csv --csv-separator ';' Dummy docker/files/data/left docker/files/data/right
+venv/bin/diffit row --range col01 --lower 1 --upper 2 csv --csv-separator ';' /tmp/Dummy.json docker/files/data/left docker/files/data/right
 ```
 
-``` sh title="Results"
+``` sh title="Result"
 +-----+-----------+-----------+----------+
 |col01|col02      |col03      |diffit_ref|
 +-----+-----------+-----------+----------+
