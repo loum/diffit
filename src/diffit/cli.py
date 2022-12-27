@@ -1,19 +1,16 @@
 """Diff-it executable.
 
 """
-import os
-import pathlib
 import json
 import argparse
-from configparser import ConfigParser
-from pyspark import (SparkContext, SparkConf)
-from pyspark.sql import SparkSession
+
 from pyspark.sql.functions import asc, col, desc
+import pyspark
 
 import diffit
-import diffit.schema
-import diffit.files
+import diffit.datasources.spark
 import diffit.reporter
+import diffit.schema
 
 
 DESCRIPTION = """Diff-it Data Diff tool"""
@@ -31,19 +28,10 @@ def main():
     # Add sub-command support.
     subparsers = parser.add_subparsers()
 
-    # 'schema' subcommand.
-    schema_parser = subparsers.add_parser('schema', help='Diffit schema control')
-    schema_subparsers = schema_parser.add_subparsers(dest='schema')
-
-    schema_list_parser = schema_subparsers.add_parser('list',
-                                                      help='List supported schemas')
-
-    schema_list_parser.set_defaults(func=schema_list)
-
     # 'row' subcommand.
     row_parser = subparsers.add_parser('row', help='DataFrame row-level diff')
     row_parser.add_argument('-o', '--output', help='Write results to path')
-    row_parser.add_argument('-d', '--drop', nargs='*', help='Drop column from diffit engine')
+    row_parser.add_argument('-d', '--drop', action="append", help='Drop column from diffit engine')
     row_parser.add_argument('-r', '--range', help='Column to target for range filter')
     row_parser.add_argument('-L', '--lower', help='Range filter lower bound (inclusive)')
     row_parser.add_argument('-U', '--upper', help='Range filter upper bound (inclusive)')
@@ -51,10 +39,26 @@ def main():
                             '--force-range',
                             action='store_true',
                             help='Force string-based range filter')
-    row_parser.add_argument('schema', help='Report schema')
-    row_parser.add_argument('left_data_source', help='"Left" DataFrame source location')
-    row_parser.add_argument('right_data_source', help='"Right" DataFrame source location')
-    row_parser.set_defaults(func=row)
+
+    row_subparser = row_parser.add_subparsers(title='sub-commands', dest='subcommand')
+
+    # 'row csv' subcommand.
+    row_parser_csv = row_subparser.add_parser('csv', help='CSV row-level')
+    row_parser_csv.add_argument('-s', '--csv-separator', help='CSV separator', default=',')
+    row_parser_csv.add_argument('-E',
+                                '--csv-header',
+                                help='CSV contains header',
+                                action='store_true')
+    row_parser_csv.add_argument('schema', help='Path to CSV schema in JSON format')
+    row_parser_csv.add_argument('left_data_source', help='"Left" CSV source location')
+    row_parser_csv.add_argument('right_data_source', help='"Right" CSV source location')
+    row_parser_csv.set_defaults(func=row_csv)
+
+    # 'row parquet' subcommand.
+    row_parser_parquet = row_subparser.add_parser('parquet', help='Parquet row-level')
+    row_parser_parquet.add_argument('left_data_source', help='"Left" Parquet source location')
+    row_parser_parquet.add_argument('right_data_source', help='"Right" Parquet source location')
+    row_parser_parquet.set_defaults(func=row_parquet)
 
     # 'analyse' subcommand.
     analyse_parser = subparsers.add_parser('analyse',
@@ -123,31 +127,49 @@ def main():
     except AttributeError:
         parser.print_help()
         parser.exit()
+
+    conf = pyspark.SparkConf()
+    conf.set('spark.driver.memory', args.driver_memory)
+    args.conf = conf
+
     func(args)
 
 
-def schema_list(args): # pylint: disable=unused-argument
-    """Diffit schema list.
+def row_csv(args):
+    """Row-level CSV pre-processing.
 
     """
-    for index, schema in enumerate(sorted(diffit.schema.names()), start=1):
-        print(f'{index}. {schema[0][0]}')
+    schema = diffit.schema.interpret_schema(args.schema)
+
+    if schema is not None:
+        spark = diffit.datasources.spark.spark_session(conf=args.conf)
+        left = diffit.datasources.spark.csv_reader(spark,
+                                                   schema,
+                                                   args.left_data_source,
+                                                   delimiter=args.csv_separator,
+                                                   header=args.csv_header)
+        right = diffit.datasources.spark.csv_reader(spark,
+                                                    schema,
+                                                    args.right_data_source,
+                                                    delimiter=args.csv_separator,
+                                                    header=args.csv_header)
+        row_report(args, left, right)
 
 
-def row(args):
-    """Report against given schema.
+def row_parquet(args, left: pyspark.sql.DataFrame, right: pyspark.sql.DataFrame):
+    """Row-level parquet pre-processing.
 
     """
-    spark = SparkSession(SparkContext(conf=spark_conf(driver_memory=args.driver_memory)))
+    spark = diffit.datasources.spark.spark_session(conf=args.conf)
+    left = diffit.datasources.spark.parquet_reader(spark, args.left_data_source)
+    right = diffit.datasources.spark.parquet_reader(spark, args.right_data_source)
+    row_report(args, left, right)
 
-    if args.schema == 'parquet':
-        left = diffit.files.spark_parquet_reader(spark, args.left_data_source)
-        right = diffit.files.spark_parquet_reader(spark, args.right_data_source)
-    else:
-        schema = diffit.schema.get(args.schema)
-        left = diffit.files.spark_csv_reader(spark, schema, args.left_data_source)
-        right = diffit.files.spark_csv_reader(spark, schema, args.right_data_source)
 
+def row_report(args, left: pyspark.sql.DataFrame, right: pyspark.sql.DataFrame):
+    """Row-level reporter.
+
+    """
     range_filter = {
         'column': args.range,
         'lower': args.lower,
@@ -155,21 +177,20 @@ def row(args):
         'force': args.force_range,
     }
 
+    reporter = diffit.reporter.row_level(left, right, args.drop, range_filter)
     if args.output:
-        diffit.reporter.row_level(left, right, args.drop, range_filter)\
-            .write.mode('overwrite')\
-            .parquet(args.output)
+        reporter.write.mode('overwrite').parquet(args.output)
     else:
-        diffit.reporter.row_level(left, right).show(truncate=False)
+        reporter.show(truncate=False)
 
 
 def analyse(args):
     """Extract Diffit output rows that only present from the source DataFrame.
 
     """
-    spark = SparkSession(SparkContext(conf=spark_conf(driver_memory=args.driver_memory)))
+    spark = diffit.datasources.spark.spark_session(conf=args.conf)
 
-    diffit_df = diffit.files.spark_parquet_reader(spark, args.diffit_out)
+    diffit_df = diffit.datasources.spark.parquet_reader(spark, args.diffit_out)
 
     order = asc
     if args.descending:
@@ -207,9 +228,9 @@ def columns(args):
     """Show different columns.
 
     """
-    spark = SparkSession(SparkContext(conf=spark_conf(driver_memory=args.driver_memory)))
+    spark = diffit.datasources.spark.spark_session(conf=args.conf)
 
-    diffit_df = diffit.files.spark_parquet_reader(spark, args.diffit_out)
+    diffit_df = diffit.datasources.spark.parquet_reader(spark, args.diffit_out)
 
     result = diffit.reporter.altered_rows_column_diffs(diffit_df, args.key, args.val)
     print(f'### {args.key}|{args.val}: '
@@ -220,43 +241,12 @@ def convert(args):
     """Convert CSV to parquet.
 
     """
-    spark = SparkSession(SparkContext(conf=spark_conf(driver_memory=args.driver_memory)))
+    spark = diffit.datasources.spark.spark_session(conf=args.conf)
 
-    diffit.files.spark_csv_reader(spark, diffit.schema.get(args.schema), args.data_source)\
+    diffit.datasources.spark.csv_reader(spark,
+                                        diffit.schema.interpret_schema(args.schema),
+                                        args.data_source)\
         .repartition(8)\
         .write.mode('overwrite')\
         .option('compression', args.compression)\
         .parquet(args.output)
-
-
-def spark_conf(driver_memory: str = '2g') -> SparkConf:
-    """Generic Spark configuration settings.
-
-    """
-    conf = SparkConf()
-    conf.setAppName(DESCRIPTION)
-    conf.set('spark.driver.memory', driver_memory)
-    conf.set('spark.hadoop.fs.s3a.endpoint', 's3.ap-southeast-2.amazonaws.com')
-    conf.set('spark.hadoop.fs.s3a.aws.experimental.input.fadvise', 'random')
-    aws_path = os.path.join(pathlib.Path.home(), '.aws', 'credentials')
-    if os.path.exists(aws_path):
-        conf.set('spark.hadoop.fs.s3a.aws.credentials.provider',
-                 'org.apache.hadoop.fs.s3a.TemporaryAWSCredentialsProvider')
-        with open(aws_path, encoding='utf-8') as _fh:
-            aws_config = ConfigParser()
-            aws_config.read_file(_fh)
-            conf.set('spark.hadoop.fs.s3a.access.key', aws_config.get('default',
-                                                                      'aws_access_key_id'))
-            conf.set('spark.hadoop.fs.s3a.secret.key', aws_config.get('default',
-                                                                      'aws_secret_access_key'))
-            conf.set('spark.hadoop.fs.s3a.session.token', aws_config.get('default',
-                                                                         'aws_session_token'))
-    else:
-        kms_key_arn = os.environ.get('KMS_KEY_ARN')
-        if kms_key_arn:
-            conf.set('spark.hadoop.fs.s3a.aws.credentials.provider',
-                'org.apache.hadoop.fs.s3a.auth.IAMInstanceCredentialsProvider')
-            conf.set('spark.hadoop.fs.s3a.server-side-encryption-algorithm', 'SSE-KMS')
-            conf.set('spark.hadoop.fs.s3a.server-side-encryption.key', kms_key_arn)
-
-    return conf

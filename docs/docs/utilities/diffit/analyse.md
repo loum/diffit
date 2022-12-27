@@ -37,27 +37,28 @@ options:
 only appear in a specific target data source.
 
 ### Example: Analyse Rows Unique to Each Spark DataFrame
+This example reuses the [Dummy.json schema](../row#example-csv-data-sources) from a previous example.
 ``` sh title="Reset the Diffit extract"
-venv/bin/diffit row --output /tmp/out Dummy docker/files/data/left docker/files/data/right
+venv/bin/diffit row tmp/out csv --csv-separator ';' /tmp/Dummy.json docker/files/data/left docker/files/data/right
 ```
 
 ``` sh title="The key setting, col01, acts as the GROUP BY predicate"
 venv/bin/diffit analyse distinct col01 /tmp/out
 ```
 
-``` sh title="Analysing distinct rows from left source DataFrame"
-+-----+-----+----------+
-|col01|col02|diffit_ref|
-+-----+-----+----------+
-+-----+-----+----------+
-```
+``` sh title="Combined diffit analyse distinct output"
+### Analysing distinct rows from "left" source DataFrame
++-----+-----+-----+----------+
+|col01|col02|col03|diffit_ref|
++-----+-----+-----+----------+
++-----+-----+-----+----------+
 
-``` sh title="Analysing distinct rows from right source DataFrame"
-+-----+-----------+----------+
-|col01|col02      |diffit_ref|
-+-----+-----------+----------+
-|9    |col02_val09|right     |
-+-----+-----------+----------+
+### Analysing distinct rows from "right" source DataFrame
++-----+-----------+-----------+----------+
+|col01|col02      |col03      |diffit_ref|
++-----+-----------+-----------+----------+
+|9    |col02_val09|col03_val09|right     |
++-----+-----------+-----------+----------+
 ```
 
 A Diffit extract can be limited with the `--diffit_ref` switch. For example, to only show
@@ -67,11 +68,12 @@ venv/bin/diffit analyse --diffit_ref right distinct col01 /tmp/out
 ```
 
 ``` sh title="Result"
-+-----+-----------+----------+
-|col01|col02      |diffit_ref|
-+-----+-----------+----------+
-|9    |col02_val09|right     |
-+-----+-----------+----------+
+### Analysing distinct rows from "right" source DataFrame
++-----+-----------+-----------+----------+
+|col01|col02      |col03      |diffit_ref|
++-----+-----------+-----------+----------+
+|9    |col02_val09|col03_val09|right     |
++-----+-----------+-----------+----------+
 ```
 
 The default number of rows returned is `20`. This can be adjusted with the `--hits` switch:
@@ -87,18 +89,19 @@ data sources and flagged as being different.
 Given a Diffit extract at `/tmp/out` that defines a schema column `col01` that can act as the unique constraint:
 
 ``` sh title="Reset the Diffit extract"
-venv/bin/diffit row --output /tmp/out Dummy docker/files/data/left docker/files/data/right
+venv/bin/diffit row --output /tmp/out csv --csv-separator ';' /tmp/Dummy.json docker/files/data/left docker/files/data/right
 ```
 
-``` sh
+``` sh title="diffit analyse altered command"
 venv/bin/diffit analyse altered col01 /tmp/out
 ```
 
 ``` sh title="Result"
-+-----+-----------+----------+
-|col01|col02      |diffit_ref|
-+-----+-----------+----------+
-|2    |col02_val02|left      |
-|2    |col02_valXX|right     |
-+-----+-----------+----------+
++-----+-----------+-----------+----------+
+|col01|col02      |col03      |diffit_ref|
++-----+-----------+-----------+----------+
+|2    |col02_val02|col03_val02|left      |
+|2    |col02_valXX|col03_val02|right     |
+|8    |col02_val08|col03_val08|left      |
+|8    |col02_val08|col03_valYY|right     |
 ```

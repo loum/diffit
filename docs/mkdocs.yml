@@ -6,11 +6,11 @@ nav:
   - Utilities:
     - utilities/index.md
     - diffit:
-      - utilities/diffit/schema.md
       - utilities/diffit/row.md
       - utilities/diffit/analyse.md
       - utilities/diffit/columns.md
       - utilities/diffit/convert.md
+  - Scaling out: containerisation.md
 markdown_extensions:
   - admonition
   - pymdownx.highlight:

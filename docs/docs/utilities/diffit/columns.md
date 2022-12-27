@@ -25,12 +25,16 @@ options:
 ```
 
 ## Example
-Given a Diffit extract at `/tmp/out` that features:
+``` sh title="Reset the Diffit extract"
+venv/bin/diffit row --output /tmp/out csv --csv-separator ';' /tmp/Dummy.json docker/files/data/left docker/files/data/right
+```
+
+The Diffit extract at `/tmp/out` features:
 
 - A schema column `col01` acting as the unique constraint
 - A key column value of `2` as a filter
 
-``` sh
+``` sh title="diffit columns filter for key:value pair col01:2"
 venv/bin/diffit columns col01 2 /tmp/out
 ```
 

@@ -11,7 +11,7 @@ from pyspark.sql.functions import col, lit
 import diffit.utils
 
 
-def row_level(left: DataFrame, right: DataFrame) -> DataFrame:
+def right_subtract_row_level(left: DataFrame, right: DataFrame) -> DataFrame:
     """Compare two Spark SQL DataFrames denoted as *left* and *right*
     for differences at the row level.
 
