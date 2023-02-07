@@ -4,13 +4,8 @@
 MAKESTER__CONTAINER_NAME := diffit-spark
 
 include makester/makefiles/makester.mk
-MAKESTER__PACKAGE_NAME := diffit
 
-ifeq ($(MAKESTER__ARCH), arm64)
-DOCKER_PLATFORM := linux/arm64/v8
-else
-DOCKER_PLATFORM := linux/amd64
-endif
+MAKESTER__PACKAGE_NAME := diffit
 
 MAKESTER__WHEEL := .wheelhouse
 
@@ -21,7 +16,7 @@ init-dev: _venv-init py-install-makester
 	MAKESTER__PIP_INSTALL_EXTRAS=dev $(MAKE) gitversion-release py-install-extras
 
 # Streamlined production packages.
-init: py-venv-clear py-venv-init gitversion-release
+init: _venv-init gitversion-release
 	$(MAKE) py-install
 
 MAKESTER__VERSION_FILE := $(MAKESTER__PYTHON_PROJECT_ROOT)/VERSION
@@ -45,11 +40,6 @@ MAKESTER__RELEASE_NUMBER ?= 1
 # Tag the image build
 export MAKESTER__IMAGE_TAG_ALIAS := $(MAKESTER__SERVICE_NAME):$(MAKESTER__RELEASE_VERSION)-$(MAKESTER__RELEASE_NUMBER)
 
-py-distribution: MAKESTER__WHEEL := .wheelhouse
-
-lint:
-	-@pylint $(MAKESTER__PROJECT_DIR)/src
-
 dep-builder:
 	$(MAKESTER__PIP) install --upgrade --target .dependencies .
 
@@ -64,16 +54,12 @@ CMD ?= --help
 diffit:
 	@diffit $(CMD)
 
-DOCKER_BUILDX_BUILDER := multiarch
 SPARK_PSEUDO_BASE_IMAGE := 3.3.4-3.3.1
 MAKESTER__BUILD_COMMAND := --rm --no-cache\
- --builder $(DOCKER_BUILDX_BUILDER)\
- --platform $(DOCKER_PLATFORM)\
  --build-arg RELEASE_VERSION=$(MAKESTER__RELEASE_VERSION)\
- --build-arg UBUNTU_BASE_IMAGE=$(UBUNTU_BASE_IMAGE)\
  --build-arg SPARK_PSEUDO_BASE_IMAGE=$(SPARK_PSEUDO_BASE_IMAGE)\
- --load\
  --tag $(MAKESTER__IMAGE_TAG_ALIAS)\
+ --load\
  -f docker/Dockerfile .
 
 diffit-image-build: gitversion-release py-distribution dep-package image-buildx
@@ -113,15 +99,18 @@ MAKESTER__RUN_COMMAND = $(MAKESTER__DOCKER) run\
 
 MAKESTER__COMPOSE_FILES = -f docker/docker-compose.yml
 
-pyspark:
-	@PYSPARK_PYTHON=$(MAKESTER__PYTHON) pyspark --driver-memory=2G --conf spark.sql.session.timeZone=UTC
+ifndef DRIVER_MEMORY
+  DRIVER_MEMORY := 2g
+endif
+export DRIVER_MEMORY := $(DRIVER_MEMORY)
 
-help: makester-help docker-help py-help versioning-help
+pyspark:
+	@PYSPARK_PYTHON=$(MAKESTER__PYTHON) pyspark --driver-memory=$(DRIVER_MEMORY) --conf spark.sql.session.timeZone=UTC
+
+help: makester-help
 	@echo "(Makefile)\n\
   diffit-image-build   Diffit tooling container image builder\n\
-  init                 Build the local Python-based virtual environment\n\
   init-dev             Build the local Python-based virtual environment (development)\n\
-  lint                 Lint the code base\n\
   pyspark              Start the PyPI pyspark interpreter in virtual env context\n\
   tests                Run code test suite\n"
 

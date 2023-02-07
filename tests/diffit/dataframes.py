@@ -1,4 +1,4 @@
-"""PyTest pluging that defines sample Spark SQL DataFrames.
+"""PyTest plugin that defines sample Spark SQL DataFrames.
 
 """
 from pyspark.sql import DataFrame, SparkSession

@@ -1,5 +1,5 @@
 [run]
-omit = tests/*,3env/*,setup.py
+omit = tests/*,[23v]env/*
 
 [report]
 show_missing = True
