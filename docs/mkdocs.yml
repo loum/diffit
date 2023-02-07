@@ -1,5 +1,6 @@
 site_name: Diffit
 site_url: https://loum.github.io/diffit/
+
 nav:
   - Home: index.md
   - Getting started: getting-started.md
@@ -11,6 +12,7 @@ nav:
       - utilities/diffit/columns.md
       - utilities/diffit/convert.md
   - Scaling out: containerisation.md
+
 markdown_extensions:
   - admonition
   - pymdownx.highlight:
@@ -36,3 +38,4 @@ theme:
   features:
     - navigation.tabs
     - header.autohide
+    - content.code.copy
