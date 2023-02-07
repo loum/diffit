@@ -10,8 +10,14 @@
       
         <link rel="canonical" href="https://loum.github.io/diffit/utilities/diffit/analyse/">
       
+      
+        <link rel="prev" href="../row/">
+      
+      
+        <link rel="next" href="../columns/">
+      
       <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.10">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.11">
     
     
       
@@ -19,11 +25,10 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.975780f9.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.0d440cfe.min.css">
       
         
         <link rel="stylesheet" href="../../../assets/stylesheets/palette.2505c338.min.css">
-        
       
       
 
@@ -111,8 +116,6 @@
       <form class="md-header__option" data-md-component="palette">
         
           
-          
-          
           <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent=""  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
           
             <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
@@ -120,8 +123,6 @@
             </label>
           
         
-          
-          
           
           <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="" data-md-color-accent=""  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
           
@@ -160,7 +161,7 @@
           <div class="md-search-result__meta">
             Initializing search
           </div>
-          <ol class="md-search-result__list"></ol>
+          <ol class="md-search-result__list" role="presentation"></ol>
         </div>
       </div>
     </div>
@@ -311,17 +312,18 @@
     <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
       
       
       
-      
-        <label class="md-nav__link" for="__nav_3">
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
           Utilities
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" aria-label="Utilities" data-md-level="1">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
         <label class="md-nav__title" for="__nav_3">
           <span class="md-nav__icon md-icon"></span>
           Utilities
@@ -353,17 +355,18 @@
     <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_2" type="checkbox" id="__nav_3_2" checked>
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" checked>
       
       
       
-      
-        <label class="md-nav__link" for="__nav_3_2">
+        <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
           diffit
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" aria-label="diffit" data-md-level="2">
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="true">
         <label class="md-nav__title" for="__nav_3_2">
           <span class="md-nav__icon md-icon"></span>
           diffit
@@ -393,7 +396,7 @@
   
     <li class="md-nav__item md-nav__item--active">
       
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
         
@@ -623,42 +626,43 @@
                   
 
 
+
 <h1 id="diffit-analyse">diffit analyse</h1>
 <p><code>diffit analyse</code> supports the concept of a unique constraint key to target differences at the row level.</p>
 <h2 id="usage">Usage</h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>venv/bin/diffit analyse --help
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>venv/bin/diffit<span class="w"> </span>analyse<span class="w"> </span>--help
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>usage: diffit analyse <span class="o">[</span>-h<span class="o">]</span> <span class="o">[</span>-R <span class="o">{</span>left,right<span class="o">}]</span> <span class="o">[</span>-D<span class="o">]</span> <span class="o">[</span>-C<span class="o">]</span> <span class="o">[</span>-H HITS<span class="o">]</span> <span class="o">[</span>-r RANGE<span class="o">]</span> <span class="o">[</span>-L LOWER<span class="o">]</span> <span class="o">[</span>-U UPPER<span class="o">]</span> <span class="o">[</span>-F<span class="o">]</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>                      <span class="o">{</span>distinct,altered<span class="o">}</span> key diffit_out
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>usage:<span class="w"> </span>diffit<span class="w"> </span>analyse<span class="w"> </span><span class="o">[</span>-h<span class="o">]</span><span class="w"> </span><span class="o">[</span>-R<span class="w"> </span><span class="o">{</span>left,right<span class="o">}]</span><span class="w"> </span><span class="o">[</span>-D<span class="o">]</span><span class="w"> </span><span class="o">[</span>-C<span class="o">]</span><span class="w"> </span><span class="o">[</span>-H<span class="w"> </span>HITS<span class="o">]</span><span class="w"> </span><span class="o">[</span>-r<span class="w"> </span>RANGE<span class="o">]</span><span class="w"> </span><span class="o">[</span>-L<span class="w"> </span>LOWER<span class="o">]</span><span class="w"> </span><span class="o">[</span>-U<span class="w"> </span>UPPER<span class="o">]</span><span class="w"> </span><span class="o">[</span>-F<span class="o">]</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">                      </span><span class="o">{</span>distinct,altered<span class="o">}</span><span class="w"> </span>key<span class="w"> </span>diffit_out
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>positional arguments:
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>  <span class="o">{</span>distinct,altered<span class="o">}</span>    Report analysis <span class="nb">type</span>
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>  key                   column that acts as a unique constraint
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>  diffit_out            Path to Diffit output
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>positional<span class="w"> </span>arguments:
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span><span class="o">{</span>distinct,altered<span class="o">}</span><span class="w">    </span>Report<span class="w"> </span>analysis<span class="w"> </span><span class="nb">type</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">  </span>key<span class="w">                   </span>column<span class="w"> </span>that<span class="w"> </span>acts<span class="w"> </span>as<span class="w"> </span>a<span class="w"> </span>unique<span class="w"> </span>constraint
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">  </span>diffit_out<span class="w">            </span>Path<span class="w"> </span>to<span class="w"> </span>Diffit<span class="w"> </span>output
 <a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
 <a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>options:
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>  -h, --help            show this <span class="nb">help</span> message and <span class="nb">exit</span>
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>  -R <span class="o">{</span>left,right<span class="o">}</span>, --diffit_ref <span class="o">{</span>left,right<span class="o">}</span>
-<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>                        target data <span class="nb">source</span> reference
-<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>  -D, --descending      Change output ordering to descending
-<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>  -C, --counts          Only output counts
-<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>  -H HITS, --hits HITS  Rows to display
-<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>  -r RANGE, --range RANGE
-<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>                        Column to target <span class="k">for</span> range filter
-<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>  -L LOWER, --lower LOWER
-<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>                        Range filter lower bound <span class="o">(</span>inclusive<span class="o">)</span>
-<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>  -U UPPER, --upper UPPER
-<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>                        Range filter upper bound <span class="o">(</span>inclusive<span class="o">)</span>
-<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>  -F, --force-range     Force string-based range filter
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">  </span>-h,<span class="w"> </span>--help<span class="w">            </span>show<span class="w"> </span>this<span class="w"> </span><span class="nb">help</span><span class="w"> </span>message<span class="w"> </span>and<span class="w"> </span><span class="nb">exit</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">  </span>-R<span class="w"> </span><span class="o">{</span>left,right<span class="o">}</span>,<span class="w"> </span>--diffit_ref<span class="w"> </span><span class="o">{</span>left,right<span class="o">}</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">                        </span>target<span class="w"> </span>data<span class="w"> </span><span class="nb">source</span><span class="w"> </span>reference
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">  </span>-D,<span class="w"> </span>--descending<span class="w">      </span>Change<span class="w"> </span>output<span class="w"> </span>ordering<span class="w"> </span>to<span class="w"> </span>descending
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">  </span>-C,<span class="w"> </span>--counts<span class="w">          </span>Only<span class="w"> </span>output<span class="w"> </span>counts
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">  </span>-H<span class="w"> </span>HITS,<span class="w"> </span>--hits<span class="w"> </span>HITS<span class="w">  </span>Rows<span class="w"> </span>to<span class="w"> </span>display
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">  </span>-r<span class="w"> </span>RANGE,<span class="w"> </span>--range<span class="w"> </span>RANGE
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="w">                        </span>Column<span class="w"> </span>to<span class="w"> </span>target<span class="w"> </span><span class="k">for</span><span class="w"> </span>range<span class="w"> </span>filter
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="w">  </span>-L<span class="w"> </span>LOWER,<span class="w"> </span>--lower<span class="w"> </span>LOWER
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="w">                        </span>Range<span class="w"> </span>filter<span class="w"> </span>lower<span class="w"> </span>bound<span class="w"> </span><span class="o">(</span>inclusive<span class="o">)</span>
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="w">  </span>-U<span class="w"> </span>UPPER,<span class="w"> </span>--upper<span class="w"> </span>UPPER
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="w">                        </span>Range<span class="w"> </span>filter<span class="w"> </span>upper<span class="w"> </span>bound<span class="w"> </span><span class="o">(</span>inclusive<span class="o">)</span>
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="w">  </span>-F,<span class="w"> </span>--force-range<span class="w">     </span>Force<span class="w"> </span>string-based<span class="w"> </span>range<span class="w"> </span>filter
 </code></pre></div>
 <h2 id="diffit-analyse-distinct"><code>diffit analyse distinct</code></h2>
 <p><code>diffit analyse distinct</code> provides a way to report on rows from a Diffit extract that
 only appear in a specific target data source.</p>
 <h3 id="example-analyse-rows-unique-to-each-spark-dataframe">Example: Analyse Rows Unique to Each Spark DataFrame</h3>
 <p>This example reuses the <a href="../row#example-csv-data-sources">Dummy.json schema</a> from a previous example.
-<div class="highlight"><span class="filename">Reset the Diffit extract</span><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>venv/bin/diffit row tmp/out csv --csv-separator <span class="s1">&#39;;&#39;</span> /tmp/Dummy.json docker/files/data/left docker/files/data/right
+<div class="highlight"><span class="filename">Reset the Diffit extract</span><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>venv/bin/diffit<span class="w"> </span>row<span class="w"> </span>tmp/out<span class="w"> </span>csv<span class="w"> </span>--csv-separator<span class="w"> </span><span class="s1">&#39;;&#39;</span><span class="w"> </span>/tmp/Dummy.json<span class="w"> </span>docker/files/data/left<span class="w"> </span>docker/files/data/right
 </code></pre></div></p>
-<div class="highlight"><span class="filename">The key setting, col01, acts as the GROUP BY predicate</span><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>venv/bin/diffit analyse distinct col01 /tmp/out
+<div class="highlight"><span class="filename">The key setting, col01, acts as the GROUP BY predicate</span><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>venv/bin/diffit<span class="w"> </span>analyse<span class="w"> </span>distinct<span class="w"> </span>col01<span class="w"> </span>/tmp/out
 </code></pre></div>
 <div class="highlight"><span class="filename">Combined diffit analyse distinct output</span><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1">### Analysing distinct rows from &quot;left&quot; source DataFrame</span>
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>+-----+-----+-----+----------+
@@ -668,41 +672,41 @@ only appear in a specific target data source.</p>
 <a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
 <a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="c1">### Analysing distinct rows from &quot;right&quot; source DataFrame</span>
 <a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>+-----+-----------+-----------+----------+
-<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="p">|</span>col01<span class="p">|</span>col02      <span class="p">|</span>col03      <span class="p">|</span>diffit_ref<span class="p">|</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="p">|</span>col01<span class="p">|</span>col02<span class="w">      </span><span class="p">|</span>col03<span class="w">      </span><span class="p">|</span>diffit_ref<span class="p">|</span>
 <a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>+-----+-----------+-----------+----------+
-<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="p">|</span><span class="m">9</span>    <span class="p">|</span>col02_val09<span class="p">|</span>col03_val09<span class="p">|</span>right     <span class="p">|</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="p">|</span><span class="m">9</span><span class="w">    </span><span class="p">|</span>col02_val09<span class="p">|</span>col03_val09<span class="p">|</span>right<span class="w">     </span><span class="p">|</span>
 <a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>+-----+-----------+-----------+----------+
 </code></pre></div>
 <p>A Diffit extract can be limited with the <code>--diffit_ref</code> switch. For example, to only show
 distinct Diffit extract records from the <code>right</code> data source:
-<div class="highlight"><span class="filename">Analysing distinct rows from right source Spark DataFrame</span><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>venv/bin/diffit analyse --diffit_ref right distinct col01 /tmp/out
+<div class="highlight"><span class="filename">Analysing distinct rows from right source Spark DataFrame</span><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>venv/bin/diffit<span class="w"> </span>analyse<span class="w"> </span>--diffit_ref<span class="w"> </span>right<span class="w"> </span>distinct<span class="w"> </span>col01<span class="w"> </span>/tmp/out
 </code></pre></div></p>
 <div class="highlight"><span class="filename">Result</span><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1">### Analysing distinct rows from &quot;right&quot; source DataFrame</span>
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>+-----+-----------+-----------+----------+
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="p">|</span>col01<span class="p">|</span>col02      <span class="p">|</span>col03      <span class="p">|</span>diffit_ref<span class="p">|</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="p">|</span>col01<span class="p">|</span>col02<span class="w">      </span><span class="p">|</span>col03<span class="w">      </span><span class="p">|</span>diffit_ref<span class="p">|</span>
 <a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>+-----+-----------+-----------+----------+
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="p">|</span><span class="m">9</span>    <span class="p">|</span>col02_val09<span class="p">|</span>col03_val09<span class="p">|</span>right     <span class="p">|</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="p">|</span><span class="m">9</span><span class="w">    </span><span class="p">|</span>col02_val09<span class="p">|</span>col03_val09<span class="p">|</span>right<span class="w">     </span><span class="p">|</span>
 <a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>+-----+-----------+-----------+----------+
 </code></pre></div>
 <p>The default number of rows returned is <code>20</code>. This can be adjusted with the <code>--hits</code> switch:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>venv/bin/diffit analyse --diffit_ref right --hits <span class="m">5</span> distinct col01 /tmp/out
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>venv/bin/diffit<span class="w"> </span>analyse<span class="w"> </span>--diffit_ref<span class="w"> </span>right<span class="w"> </span>--hits<span class="w"> </span><span class="m">5</span><span class="w"> </span>distinct<span class="w"> </span>col01<span class="w"> </span>/tmp/out
 </code></pre></div></p>
 <h2 id="diffit-analyse-altered"><code>diffit analyse altered</code></h2>
 <p><code>diffit analyse distinct</code> provides a way to report on Diffit extract rows that appear in both target
 data sources and flagged as being different.</p>
 <h3 id="example">Example</h3>
 <p>Given a Diffit extract at <code>/tmp/out</code> that defines a schema column <code>col01</code> that can act as the unique constraint:</p>
-<div class="highlight"><span class="filename">Reset the Diffit extract</span><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>venv/bin/diffit row --output /tmp/out csv --csv-separator <span class="s1">&#39;;&#39;</span> /tmp/Dummy.json docker/files/data/left docker/files/data/right
+<div class="highlight"><span class="filename">Reset the Diffit extract</span><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>venv/bin/diffit<span class="w"> </span>row<span class="w"> </span>--output<span class="w"> </span>/tmp/out<span class="w"> </span>csv<span class="w"> </span>--csv-separator<span class="w"> </span><span class="s1">&#39;;&#39;</span><span class="w"> </span>/tmp/Dummy.json<span class="w"> </span>docker/files/data/left<span class="w"> </span>docker/files/data/right
 </code></pre></div>
-<div class="highlight"><span class="filename">diffit analyse altered command</span><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>venv/bin/diffit analyse altered col01 /tmp/out
+<div class="highlight"><span class="filename">diffit analyse altered command</span><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>venv/bin/diffit<span class="w"> </span>analyse<span class="w"> </span>altered<span class="w"> </span>col01<span class="w"> </span>/tmp/out
 </code></pre></div>
 <div class="highlight"><span class="filename">Result</span><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>+-----+-----------+-----------+----------+
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="p">|</span>col01<span class="p">|</span>col02      <span class="p">|</span>col03      <span class="p">|</span>diffit_ref<span class="p">|</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="p">|</span>col01<span class="p">|</span>col02<span class="w">      </span><span class="p">|</span>col03<span class="w">      </span><span class="p">|</span>diffit_ref<span class="p">|</span>
 <a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>+-----+-----------+-----------+----------+
-<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="p">|</span><span class="m">2</span>    <span class="p">|</span>col02_val02<span class="p">|</span>col03_val02<span class="p">|</span>left      <span class="p">|</span>
-<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="p">|</span><span class="m">2</span>    <span class="p">|</span>col02_valXX<span class="p">|</span>col03_val02<span class="p">|</span>right     <span class="p">|</span>
-<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="p">|</span><span class="m">8</span>    <span class="p">|</span>col02_val08<span class="p">|</span>col03_val08<span class="p">|</span>left      <span class="p">|</span>
-<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="p">|</span><span class="m">8</span>    <span class="p">|</span>col02_val08<span class="p">|</span>col03_valYY<span class="p">|</span>right     <span class="p">|</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="p">|</span><span class="m">2</span><span class="w">    </span><span class="p">|</span>col02_val02<span class="p">|</span>col03_val02<span class="p">|</span>left<span class="w">      </span><span class="p">|</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="p">|</span><span class="m">2</span><span class="w">    </span><span class="p">|</span>col02_valXX<span class="p">|</span>col03_val02<span class="p">|</span>right<span class="w">     </span><span class="p">|</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="p">|</span><span class="m">8</span><span class="w">    </span><span class="p">|</span>col02_val08<span class="p">|</span>col03_val08<span class="p">|</span>left<span class="w">      </span><span class="p">|</span>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="p">|</span><span class="m">8</span><span class="w">    </span><span class="p">|</span>col02_val08<span class="p">|</span>col03_valYY<span class="p">|</span>right<span class="w">     </span><span class="p">|</span>
 </code></pre></div>
 
 
@@ -719,42 +723,6 @@ data sources and flagged as being different.</p>
       </main>
       
         <footer class="md-footer">
-  
-    
-    <nav class="md-footer__inner md-grid" aria-label="Footer" >
-      
-        
-        <a href="../row/" class="md-footer__link md-footer__link--prev" aria-label="Previous: diffit row" rel="prev">
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
-          </div>
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Previous
-              </span>
-              diffit row
-            </div>
-          </div>
-        </a>
-      
-      
-        
-        <a href="../columns/" class="md-footer__link md-footer__link--next" aria-label="Next: diffit columns" rel="next">
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Next
-              </span>
-              diffit columns
-            </div>
-          </div>
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
-          </div>
-        </a>
-      
-    </nav>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
@@ -777,12 +745,11 @@ data sources and flagged as being different.</p>
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "header.autohide"], "search": "../../../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "header.autohide", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.db81ec45.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.5a2dcb6a.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.6df46069.min.js"></script>
       
-    
     
   </body>
 </html>
