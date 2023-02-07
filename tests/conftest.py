@@ -1,35 +1,33 @@
 """Global fixture arrangement.
 
 """
-import logging
 import shutil
 import tempfile
 
-import pyspark
+from logga import log
+from pyspark.sql import SparkSession
 import pytest
 
 import diffit.datasources.spark
 
 
-@pytest.fixture(scope='session')
-def spark() -> pyspark.sql.SparkSession:
-    """Handler to the SparkSession for the test harness.
-    """
-    return diffit.datasources.spark.spark_session(app_name='test')
+@pytest.fixture(scope="session")
+def spark() -> SparkSession:
+    """Handler to the SparkSession for the test harness."""
+    return diffit.datasources.spark.spark_session(app_name="test")
 
 
 @pytest.fixture
 def working_dir(request):
-    """Temporary working directory.
-    """
+    """Temporary working directory."""
+
     def fin():
-        """Tear down.
-        """
-        logging.info('Deleting temporary test directory: "%s"', dirpath)
+        """Tear down."""
+        log.info('Deleting temporary test directory: "%s"', dirpath)
         shutil.rmtree(dirpath)
 
     request.addfinalizer(fin)
     dirpath = tempfile.mkdtemp()
-    logging.info('Created temporary test directory: "%s"', dirpath)
+    log.info('Created temporary test directory: "%s"', dirpath)
 
     return dirpath

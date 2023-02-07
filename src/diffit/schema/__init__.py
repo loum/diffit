@@ -1,11 +1,12 @@
 """Schema utilities.
 """
-import logging
+from typing import Tuple, Iterator, Union
 import json
 import os
 import pathlib
 import zipfile
-from typing import (Tuple, Iterator, Union)
+
+from logga import log
 from pyspark.sql.types import StructType
 import filester
 
@@ -17,13 +18,13 @@ def interpret_schema(path_to_schema: str) -> StructType:
     path at `path_to_schema`.
 
     """
-    logging.info('Parsing Spark DataFrame schema from "%s"', path_to_schema)
+    log.info('Parsing Spark DataFrame schema from "%s"', path_to_schema)
 
     schema = None
     try:
-        with open(path_to_schema, encoding='utf-8') as _fh:
+        with open(path_to_schema, encoding="utf-8") as _fh:
             schema = StructType.fromJson(json.loads(_fh.read()))
     except (FileNotFoundError, json.decoder.JSONDecodeError) as err:
-        logging.warn('Schema interpretation error: %s', err)
+        log.warning("Schema interpretation error: %s", err)
 
     return schema
