@@ -3,8 +3,9 @@
 """
 __app_name__ = "diffit"
 
-import logging
 from typing import Iterable, List, Optional
+
+from logga import log
 from pyspark.sql import DataFrame
 from pyspark.sql.functions import col, lit
 
@@ -19,7 +20,7 @@ def right_subtract_row_level(left: DataFrame, right: DataFrame) -> DataFrame:
     not present in the *right* dataframe
 
     """
-    logging.info('Starting row-level diff check')
+    log.info("Starting row-level diff check")
     return left.select(left.columns).subtract(right.select(right.columns))
 
 
@@ -33,27 +34,26 @@ def symmetric_level(left: DataFrame, right: DataFrame) -> DataFrame:
     ``{1,2,4}``.
 
     """
-    logging.info('Starting symmetric diff check')
+    log.info("Starting symmetric diff check")
     return left.union(right).subtract(left.intersect(right))
 
 
-def symmetric_filter(target: DataFrame,
-                     symmetric: DataFrame,
-                     orientation: str = 'left') -> DataFrame:
+def symmetric_filter(
+    target: DataFrame, symmetric: DataFrame, orientation: str = "left"
+) -> DataFrame:
     """Filter out the *symmetric* DataFrame rows that co-exist against the *target* DataFrame.
 
     *orientation* denotes the reference of the *source* DataFrame in the
     context of the :func:`symmetric` operation.
 
     """
-    logging.info('Starting report for %s DataFrame reference point', orientation)
-    return target.intersect(symmetric).withColumn('diffit_ref', lit(orientation))
+    log.info("Starting report for %s DataFrame reference point", orientation)
+    return target.intersect(symmetric).withColumn("diffit_ref", lit(orientation))
 
 
 def column_level_diff(left: DataFrame, right: DataFrame) -> Iterable[dict]:
-    """DataFrame column-level diff check.
+    """DataFrame column-level diff check."""
 
-    """
     def col_diff(col_name: str) -> DataFrame:
         return left.select(col(col_name)).subtract(right.select(col(col_name)))
 
