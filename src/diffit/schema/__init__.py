@@ -1,6 +1,6 @@
 """Schema utilities.
 """
-from typing import Tuple, Iterator, Union
+from typing import Optional, Tuple, Iterator, Union
 import json
 import os
 import pathlib
@@ -13,14 +13,14 @@ import filester
 import diffit.datasources.spark
 
 
-def interpret_schema(path_to_schema: str) -> StructType:
+def interpret_schema(path_to_schema: str) -> Optional[StructType]:
     """Generate a :class:`pyspark.sql.types.StructType` from source JSON defined by
     path at `path_to_schema`.
 
     """
     log.info('Parsing Spark DataFrame schema from "%s"', path_to_schema)
 
-    schema = None
+    schema: Optional[StructType] = None
     try:
         with open(path_to_schema, encoding="utf-8") as _fh:
             schema = StructType.fromJson(json.loads(_fh.read()))

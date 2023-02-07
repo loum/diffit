@@ -26,7 +26,7 @@ tests:
 	$(MAKESTER__PYTHON) -m pytest\
  --override-ini log_cli=true\
  --override-ini  junit_family=xunit2\
- --log-cli-level=INFO -vv\
+ --log-cli-level=INFO -svv\
  --exitfirst\
  --cov-config tests/.coveragerc\
  --pythonwarnings ignore\

@@ -1,6 +1,6 @@
 """Diffit :mod:`diffit.reporter`.
 """
-from typing import Iterable, List, Optional, Text, Union
+from typing import Any, Dict, Iterable, List, Optional, Text, Union
 
 from logga import log
 from pyspark.sql import Column, DataFrame
@@ -14,7 +14,7 @@ def row_level(
     left: DataFrame,
     right: DataFrame,
     columns_to_drop: Optional[List[Text]] = None,
-    range_filter: Optional[dict] = None,
+    range_filter: Optional[Dict[Text, Any]] = None,
 ) -> DataFrame:
     """Wrapper function to report on differences between *left* and *right*
     Spark SQL DataFrames.
@@ -28,18 +28,20 @@ def row_level(
     left = left.drop(*columns_to_drop)
     right = right.drop(*columns_to_drop)
 
-    if range_filter is not None:
-        if (
-            range_filter.get("column") is not None
-            and range_filter.get("column") in left.columns
-        ):
-            condition = range_filter_clause(
-                left.schema,
-                range_filter.get("column"),
-                range_filter.get("lower"),
-                range_filter.get("upper"),
-                range_filter.get("force"),
-            )
+    if range_filter is None:
+        range_filter = {}
+
+    column: Text = range_filter.get("column", "")
+    if column and column in left.columns:
+        condition: Optional[Column] = range_filter_clause(
+            left.schema,
+            column,
+            range_filter.get("lower"),
+            range_filter.get("upper"),
+            range_filter.get("force", False),
+        )
+
+        if condition is not None:
             left = left.filter(condition)
             right = right.filter(condition)
 
@@ -56,14 +58,14 @@ def range_filter_clause(
     column: Text,
     lower: Union[None, int, Text],
     upper: Union[None, int, Text],
-    force: Union[bool] = False,
-) -> Column:
+    force: bool = False,
+) -> Optional[Column]:
     """Set up range search clause to filter.
 
     Checks if the provided column is supported as a range condition in the clause.
 
     """
-    condition = None
+    condition: Optional[Column] = None
 
     if force or is_supported_range_condition_types(df_schema[column]):
         # Only supporting numerics at this time.
@@ -86,7 +88,7 @@ def is_supported_range_condition_types(column: StructField) -> bool:
 
     """
 
-    def check():
+    def check() -> bool:
         # Only supporting numerics at this time.
         return is_numeric(column)
 
@@ -96,7 +98,7 @@ def is_supported_range_condition_types(column: StructField) -> bool:
 def is_numeric(column: StructField) -> bool:
     """Closure to check for numeric types."""
 
-    def check():
+    def check() -> bool:
         return isinstance(column.dataType, (IntegerType, LongType))
 
     return check()
@@ -118,25 +120,30 @@ def distinct_rows(
 
 
 def altered_rows(
-    diff: DataFrame, column_key: Text, range_filter: Optional[dict] = None
+    diff: DataFrame, column_key: Text, range_filter: Optional[Dict] = None
 ) -> DataFrame:
     """Return a DataFrame of altered rows relative to *diff*.
 
     Works on a Differ output DataFrame.
 
+    Returns:
+        DataFrame of rows that different.
+
     """
-    if range_filter is not None:
-        if (
-            range_filter.get("column") is not None
-            and range_filter.get("column") in diff.columns
-        ):
-            condition = range_filter_clause(
-                diff.schema,
-                range_filter.get("column"),
-                range_filter.get("lower"),
-                range_filter.get("upper"),
-                range_filter.get("force"),
-            )
+    if range_filter is None:
+        range_filter = {}
+
+    column: Text = range_filter.get("column", "")
+    if column and column in diff.columns:
+        condition: Optional[Column] = range_filter_clause(
+            diff.schema,
+            column,
+            range_filter.get("lower"),
+            range_filter.get("upper"),
+            range_filter.get("force", False),
+        )
+
+        if condition is not None:
             diff = diff.filter(condition)
 
     return diff.filter(
@@ -162,8 +169,8 @@ def grouped_rows(diff: DataFrame, column_key: Text, group_count: int = 1) -> Dat
 
 
 def altered_rows_column_diffs(
-    diff: DataFrame, column_key: Text, key_val: Text
-) -> Iterable[dict]:
+    diff: DataFrame, column_key: Text, key_val: Union[int, Text]
+) -> Iterable[Dict]:
     """Helper function that creates a new, reduced DataFrame from the Differ output *diff*
     and captures only the columns that are different. Column value differences
     are reported as a Python dictionary.

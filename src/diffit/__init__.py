@@ -3,7 +3,7 @@
 """
 __app_name__ = "diffit"
 
-from typing import Iterable, List, Optional
+from typing import Any, Dict, Iterable, List, Text, Optional
 
 from logga import log
 from pyspark.sql import DataFrame
@@ -51,7 +51,7 @@ def symmetric_filter(
     return target.intersect(symmetric).withColumn("diffit_ref", lit(orientation))
 
 
-def column_level_diff(left: DataFrame, right: DataFrame) -> Iterable[dict]:
+def column_level_diff(left: DataFrame, right: DataFrame) -> Iterable[Dict[Text, Any]]:
     """DataFrame column-level diff check."""
 
     def col_diff(col_name: str) -> DataFrame:
