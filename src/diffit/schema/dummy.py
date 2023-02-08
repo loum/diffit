@@ -1,4 +1,4 @@
-"""Dummy schema :mod:`tests.schema.dummy`.
+"""Dummy schema `tests.schema.dummy`.
 
 """
 from pyspark.sql.types import (
@@ -9,15 +9,14 @@ from pyspark.sql.types import (
 )
 
 
-def schema():
-    """Dummy Apache Spark DataFrame schema.
+def schema() -> StructType:
+    """Dummy Apache Spark DataFrame schema."""
 
-    """
     def definition() -> StructType:
         return StructType(
             [
-                StructField('dummy_col01', IntegerType(), True),
-                StructField('dummy_col02', StringType(), True),
+                StructField("dummy_col01", IntegerType(), True),
+                StructField("dummy_col02", StringType(), True),
             ]
         )
 

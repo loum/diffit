@@ -1,14 +1,14 @@
 # Diff-it: Data Differ
-- [Overview](#Overview)
-- [Prerequisites](#Prerequisites)
-  - [Extras for macOS](#Extras-for-macOS)
-- [Getting Started](#Getting-Started)
-- [(macOS Users) Upgrading GNU Make](#(macOS-Users)Upgrading-GNU-Make)
-  - [Creating the Local Environment](#Creating-the-Local-Environment)
-  - [Local Environment Maintenance](#Local-Environment-Maintenance)
-- [Help](#Help)
-- [Running the Test Harness](#Running-the-Test-Harness)
-- [FAQs](#FAQs)
+- [Overview](#overview)
+- [Prerequisites](#prerequisites)
+  - [Extras for macOS](#extras-for-macos)
+- [Getting Started](#getting-started)
+- [(macOS Users) Upgrading GNU Make](#(macos-users)upgrading-gnu-make)
+  - [Creating the Local Environment](#creating-the-local-environment)
+  - [Local Environment Maintenance](#local-environment-maintenance)
+- [Help](#help)
+- [Running the Test Harness](#running-the-test-harness)
+- [FAQs](#faqs)
 
 ## Overview
 `diffit` will report differences between two data sets with similar schema.
