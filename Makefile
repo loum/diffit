@@ -13,10 +13,10 @@ _venv-init: py-venv-clear py-venv-init
 
 # Install optional packages for development.
 init-dev: _venv-init py-install-makester
-	MAKESTER__PIP_INSTALL_EXTRAS=dev $(MAKE) gitversion-release py-install-extras
+	MAKESTER__PIP_INSTALL_EXTRAS=dev $(MAKE) py-install-extras
 
 # Streamlined production packages.
-init: _venv-init gitversion-release
+init: _venv-init
 	$(MAKE) py-install
 
 MAKESTER__VERSION_FILE := $(MAKESTER__PYTHON_PROJECT_ROOT)/VERSION
@@ -62,7 +62,7 @@ MAKESTER__BUILD_COMMAND := --rm --no-cache\
  --load\
  -f docker/Dockerfile .
 
-diffit-image-build: gitversion-release py-distribution dep-package image-buildx
+diffit-image-build: py-distribution dep-package image-buildx
 
 ifndef SCHEMA
 SCHEMA := $(PWD)/docker/files/schema
