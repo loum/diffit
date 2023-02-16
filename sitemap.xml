@@ -2,42 +2,82 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://loum.github.io/diffit/</loc>
-         <lastmod>2023-02-08</lastmod>
+         <lastmod>2023-02-16</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://loum.github.io/diffit/containerisation/</loc>
-         <lastmod>2023-02-08</lastmod>
+         <lastmod>2023-02-16</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://loum.github.io/diffit/getting-started/</loc>
-         <lastmod>2023-02-08</lastmod>
+         <lastmod>2023-02-16</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://loum.github.io/diffit/reference/diffit/reporter/</loc>
+         <lastmod>2023-02-16</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://loum.github.io/diffit/reference/diffit/datastore/spark/</loc>
+         <lastmod>2023-02-16</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://loum.github.io/diffit/utilities/</loc>
-         <lastmod>2023-02-08</lastmod>
+         <lastmod>2023-02-16</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://loum.github.io/diffit/utilities/diffit/analyse/</loc>
-         <lastmod>2023-02-08</lastmod>
+         <lastmod>2023-02-16</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://loum.github.io/diffit/utilities/diffit/analyse/altered/</loc>
+         <lastmod>2023-02-16</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://loum.github.io/diffit/utilities/diffit/analyse/distinct/</loc>
+         <lastmod>2023-02-16</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://loum.github.io/diffit/utilities/diffit/columns/</loc>
-         <lastmod>2023-02-08</lastmod>
+         <lastmod>2023-02-16</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://loum.github.io/diffit/utilities/diffit/columns/diff/</loc>
+         <lastmod>2023-02-16</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://loum.github.io/diffit/utilities/diffit/convert/</loc>
-         <lastmod>2023-02-08</lastmod>
+         <lastmod>2023-02-16</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://loum.github.io/diffit/utilities/diffit/convert/csv/</loc>
+         <lastmod>2023-02-16</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://loum.github.io/diffit/utilities/diffit/row/</loc>
-         <lastmod>2023-02-08</lastmod>
+         <lastmod>2023-02-16</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://loum.github.io/diffit/utilities/diffit/row/csv/</loc>
+         <lastmod>2023-02-16</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://loum.github.io/diffit/utilities/diffit/row/parquet/</loc>
+         <lastmod>2023-02-16</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
