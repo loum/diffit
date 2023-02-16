@@ -1,4 +1,4 @@
-"""`diffit.datasources.spark` unit test cases.
+"""`diffit.datastore.spark` unit test cases.
 
 """
 from typing import Text
@@ -7,7 +7,7 @@ import os
 from pyspark.sql import DataFrame, SparkSession
 import pytest
 
-import diffit.datasources.spark
+import diffit.datastore.spark
 
 
 def test_parquet_reader(working_dir: Text, spark: SparkSession) -> None:
@@ -29,7 +29,7 @@ def test_parquet_reader(working_dir: Text, spark: SparkSession) -> None:
     _df.write.parquet(parquet_path)
 
     # when I read into a Spark SQL DataFrame
-    received = diffit.datasources.spark.parquet_reader(spark, parquet_path)
+    received = diffit.datastore.spark.parquet_reader(spark, parquet_path)
 
     # then I should receive content
     msg = "Parquet Spark SQL reader DataFrame error"
@@ -48,10 +48,10 @@ def test_parquet_write_read(
     # working_dir
 
     # when I write out the Dummy Spark DataFrame as Spark Parquet
-    diffit.datasources.spark.parquet_writer(dummy, working_dir)
+    diffit.datastore.spark.parquet_writer(dummy, working_dir)
 
     # and then read back in
-    received = diffit.datasources.spark.parquet_reader(spark, working_dir)
+    received = diffit.datastore.spark.parquet_reader(spark, working_dir)
 
     # then I should get a matching count
     expected = 10000

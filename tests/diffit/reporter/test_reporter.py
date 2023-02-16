@@ -1,12 +1,13 @@
 """`diffit.reporter` unit test cases.
 
 """
-from typing import Any, Dict, Iterable, List, Optional, Text, cast
+from typing import Any, Dict, Iterable, List, Text
 
-from pyspark.sql import Column, DataFrame
+from pyspark.sql import DataFrame
 import pyspark.sql.functions as F
 import pytest
 
+from diffit.reporter.rangefilter import RangeFilter
 import diffit.reporter
 
 
@@ -58,11 +59,7 @@ def test_report_against_differing_dataframes_range_filtering(
     # dummy_extra for the left and dummy_skewed for the right
 
     # and range filtering
-    range_filter = {
-        "column": "dummy_col01",
-        "lower": 2,
-        "upper": 2,
-    }
+    range_filter = RangeFilter(column="dummy_col01", lower=2, upper=2)
 
     # when I report on differences
     received: DataFrame = diffit.reporter.row_level(
@@ -97,144 +94,6 @@ def test_report_against_differing_dataframes_with_dropped_col(
     assert [
         list(row) for row in received.sort("dummy_col01").collect()
     ] == expected, msg
-
-
-@pytest.mark.parametrize("dummy_extra_count", [9])
-def test_range_filter_clause(dummy_extra: DataFrame) -> None:
-    """Test range_filter clause."""
-    # Given a Spark SQL DataFrame
-    # dummy_extra
-
-    # and a column name that exists in the Spark SQL DataFrame
-    column_name = "dummy_col01"
-
-    # and an inclusive lower boundary bound
-    lower = 2
-
-    # and an inclusive upper boundary bound
-    upper = 5
-
-    # when I set up the range filter clause
-    condition: Optional[Column] = diffit.reporter.range_filter_clause(
-        dummy_extra.schema, column_name, lower, upper
-    )
-
-    # and filter the original Spark SQL DataFrame
-    received: DataFrame = dummy_extra.filter(cast(Column, condition)).select(
-        column_name
-    )
-
-    # then I should get a slice of the original Spark SQL DataFrame
-    msg = "Range filtered Spark SQL DataFrame slice error"
-    expected = [2, 3, 4, 5]
-    assert [
-        row.dummy_col01 for row in received.orderBy("dummy_col01").collect()
-    ] == expected, msg
-
-
-@pytest.mark.parametrize("dummy_extra_count", [9])
-def test_range_filter_clause_lower_only(dummy_extra: DataFrame) -> None:
-    """Test range_filter clause: lower boundary only."""
-    # Given a Spark SQL DataFrame
-    # dummy_extra
-
-    # and a column name that exists in the Spark SQL DataFrame
-    column_name = "dummy_col01"
-
-    # and an inclusive lower boundary bound
-    lower = 8
-
-    # and an undefined inclusive upper boundary bound
-    upper = None
-
-    # when I set up the range filter clause
-    condition = diffit.reporter.range_filter_clause(
-        dummy_extra.schema, column_name, lower, upper
-    )
-
-    # and filter the original Spark SQL DataFrame
-    received: DataFrame = dummy_extra.filter(cast(Column, condition)).select(
-        column_name
-    )
-
-    # then I should get a slice of the original Spark SQL DataFrame
-    msg = "Range filtered Spark SQL DataFrame slice error: lower boundary only"
-    expected = [8, 9]
-    assert [
-        row.dummy_col01 for row in received.orderBy("dummy_col01").collect()
-    ] == expected, msg
-
-
-@pytest.mark.parametrize("dummy_extra_count", [9])
-def test_range_filter_clause_upper_only(dummy_extra: DataFrame) -> None:
-    """Test range_filter clause: upper boundary only."""
-    # Given a Spark SQL DataFrame
-    # dummy_extra
-
-    # and a column name that exists in the Spark SQL DataFrame
-    column_name = "dummy_col01"
-
-    # and an undefined inclusive lower boundary bound
-    lower = None
-
-    # and an inclusive upper boundary bound
-    upper = 2
-
-    # when I set up the range filter clause
-    condition = diffit.reporter.range_filter_clause(
-        dummy_extra.schema, column_name, lower, upper
-    )
-
-    # and filter the original Spark SQL DataFrame
-    received: DataFrame = dummy_extra.filter(cast(Column, condition)).select(
-        column_name
-    )
-
-    # then I should get a slice of the original Spark SQL DataFrame
-    msg = "Range filtered Spark SQL DataFrame slice error: lower boundary only"
-    expected = [1, 2]
-    assert [
-        row.dummy_col01 for row in received.orderBy("dummy_col01").collect()
-    ] == expected, msg
-
-
-@pytest.mark.parametrize("dummy_extra_count", [9])
-def test_is_supported_range_condition_types_integertype(dummy_extra: DataFrame) -> None:
-    """Test is_supported_range_condition_types: pyspark.sql.types.IntegerType."""
-    # Given a Spark SQL DataFrame
-    # dummy_extra
-
-    # and a column name that exists in the Spark SQL DataFrame
-    column_name = "dummy_col01"
-
-    # when I check if the Spark SQL Column IntegerType is supported
-    received: bool = diffit.reporter.is_supported_range_condition_types(
-        dummy_extra.schema[column_name]
-    )
-
-    # then the return value should be True
-    assert received, "IntegerType columns should be supported"
-
-
-@pytest.mark.parametrize("dummy_extra_count", [9])
-def test_is_supported_range_condition_types_not_supported(
-    dummy_extra: DataFrame,
-) -> None:
-    """Test is_supported_range_condition_types: not supported."""
-    # Given a Spark SQL DataFrame
-    # dummy_extra
-
-    # and a column name that exists in the Spark SQL DataFrame
-    # NOTE: StringTypes currently not supported -- but that may change ...
-    column_name = "dummy_col02"
-
-    # when I check if the Spark SQL Column StringType is supported
-    received: bool = diffit.reporter.is_supported_range_condition_types(
-        dummy_extra.schema[column_name]
-    )
-
-    # then the return value should be False
-    assert not received, "StringType columns should not be supported"
 
 
 def test_grouped_rows_unique_rows(diffit_data_df: DataFrame) -> None:

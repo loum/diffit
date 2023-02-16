@@ -4,22 +4,39 @@ site_url: https://loum.github.io/diffit/
 nav:
   - Home: index.md
   - Getting started: getting-started.md
-  - Utilities:
+  - diffit:
     - utilities/index.md
-    - diffit:
-      - utilities/diffit/row.md
-      - utilities/diffit/analyse.md
-      - utilities/diffit/columns.md
-      - utilities/diffit/convert.md
+    - row:
+      - utilities/diffit/row/index.md
+      - utilities/diffit/row/csv.md
+      - utilities/diffit/row/parquet.md
+    - analyse:
+      - utilities/diffit/analyse/index.md
+      - utilities/diffit/analyse/distinct.md
+      - utilities/diffit/analyse/altered.md
+    - columns:
+      - utilities/diffit/columns/index.md
+      - utilities/diffit/columns/diff.md
+    - convert:
+      - utilities/diffit/convert/index.md
+      - utilities/diffit/convert/csv.md
   - Scaling out: containerisation.md
+  - Reference:
+    - diffit:
+      - datastore:
+        - reference/diffit/datastore/spark.md
+      - reference/diffit/reporter.md
 
 markdown_extensions:
   - admonition
+  - codehilite
   - pymdownx.highlight:
       anchor_linenums: true
   - pymdownx.inlinehilite
   - pymdownx.snippets
   - pymdownx.superfences
+  - attr_list
+  - md_in_html
 
 theme:
   name: material
@@ -39,3 +56,10 @@ theme:
     - navigation.tabs
     - header.autohide
     - content.code.copy
+
+plugins:
+  - search
+  - mkdocstrings
+
+watch:
+  - ../src/diffit

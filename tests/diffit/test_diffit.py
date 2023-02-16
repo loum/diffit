@@ -8,6 +8,7 @@ import pyspark.sql.functions as F
 import pytest
 
 import diffit
+import diffit.reporter
 import diffit.utils
 
 
@@ -264,3 +265,17 @@ def test_column_level_diff_with_no_diff_to_report(dummy: DataFrame) -> None:
     # then the results should present as an empty list
     msg = "Column level diff of different Spark DataFrames should produce a result"
     assert not list(received), msg
+
+
+@pytest.mark.parametrize("dummy_count", [2])
+def test_symmetric_difference_check_ok(dummy: DataFrame) -> None:
+    """Symmetric difference check: no error."""
+    # Given a Dummy Spark DataFrame
+    # dummy
+
+    # when I compare it against itself at the DataFrame level
+    diffs: DataFrame = diffit.reporter.row_level(left=dummy, right=dummy)
+
+    # then the Diffit integration check should not detect an error
+    msg = "Symmetric difference SHOULD NOT BE detected"
+    assert not [list(r) for r in diffs.collect()], msg

@@ -6,17 +6,21 @@ import shutil
 import tempfile
 
 from logga import log
+from pyspark import SparkConf
 from pyspark.sql import SparkSession
 import _pytest.fixtures
 import pytest
 
-import diffit.datasources.spark
+import diffit.datastore.spark
 
 
 @pytest.fixture(scope="session")
-def spark() -> SparkSession:
+def spark(driver_memory: Text = "1g") -> SparkSession:
     """Handler to the SparkSession for the test harness."""
-    return diffit.datasources.spark.spark_session(app_name="test")
+    conf = SparkConf()
+    conf.set("spark.driver.memory", driver_memory)
+
+    return diffit.datastore.spark.spark_session(app_name="test", conf=conf)
 
 
 @pytest.fixture
