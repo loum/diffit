@@ -166,8 +166,6 @@ option_right_data_source = typer.Option(
     ..., "--right", "-r", help="Path to right data source", show_default=False
 )
 
-print(f"type(arg_parquet): {type(arg_parquet)}")
-
 
 @row_app.command(name="csv")
 def row_csv(  # pylint: disable=too-many-arguments,too-many-locals
@@ -186,6 +184,7 @@ def row_csv(  # pylint: disable=too-many-arguments,too-many-locals
 ) -> None:
     """Spark DataFrame row-level diff from CSV source data."""
 
+    range_filter = None
     if range_column is not None:
         range_filter = RangeFilter(
             column=range_column,
@@ -241,6 +240,7 @@ def row_parquet(  # pylint: disable=too-many-arguments
 ) -> None:
     """Spark DataFrame row-level diff from Spark Parquet source data."""
 
+    range_filter = None
     if range_column is not None:
         range_filter = RangeFilter(
             column=range_column,
@@ -342,6 +342,7 @@ def analyse_altered(  # pylint: disable=too-many-arguments,too-many-locals
 ) -> None:
     """Spark DataFrame list rows source data."""
 
+    range_filter = None
     if range_column is not None:
         range_filter = RangeFilter(
             column=range_column,
@@ -395,8 +396,8 @@ def columns_diff(
         analysis, key, value
     )
     log.info(
-        "Analyse altered column names and values:\n%s",
-        json.dumps(list(columns), indent=4, sort_keys=True, default=str),
+        'Analyse diffs for column "%s" and value "%s" result:\n%s',
+        key, value, json.dumps(list(columns), indent=4, sort_keys=True, default=str),
     )
 
 
@@ -443,7 +444,6 @@ def convert_csv(  # pylint: disable=too-many-arguments
     spark = ctx.obj.spark_session()
 
     schema: Optional[StructType] = diffit.schema.interpret_schema(json_schema)
-    print(schema)
 
     if not schema:
         raise typer.Abort()
