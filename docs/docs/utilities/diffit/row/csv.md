@@ -12,6 +12,7 @@ venv/bin/diffit row csv --help
  Spark DataFrame row-level diff from CSV source data.
 
 ╭─ Options ──────────────────────────────────────────────────────────────────────────────────╮
+│    --add            -a      TEXT     Add column to the diffit engine                       │
 │    --drop           -d      TEXT     Drop column from diffit engine                        │
 │    --range-column   -r      TEXT     Column to target for range filter                     │
 │    --lower          -L      INTEGER  Range filter lower bound (inclusive)                  │

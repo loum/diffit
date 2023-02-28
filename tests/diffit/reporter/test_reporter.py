@@ -11,6 +11,47 @@ from diffit.reporter.rangefilter import RangeFilter
 import diffit.reporter
 
 
+# Tuple elements:
+# 1. List of columns to add.
+# 2. List of columns to drop.
+# 3. <expected_result>
+
+# Test scenarios:
+# 1. No columns to drop: no changes to original list.
+# 2. No columns to drop in unordered list: original list sorted.
+# 3. One column dropped: original list adjusted.
+# 4. All columns dropped: empty list.
+
+
+GET_COLUMNS_ARGS = (
+    (["dummy_col01", "dummy_col02"], [], ["dummy_col01", "dummy_col02"]),
+    (["dummy_col02", "dummy_col01"], [], ["dummy_col01", "dummy_col02"]),
+    (["dummy_col01", "dummy_col02"], ["dummy_col02"], ["dummy_col01"]),
+    (["dummy_col01", "dummy_col02"], ["dummy_col01", "dummy_col02"], []),
+)
+
+
+@pytest.mark.parametrize(
+    "columns_to_add,columns_to_drop,columns_result", GET_COLUMNS_ARGS
+)
+def test_get_columns(
+    columns_to_add: List[Text], columns_to_drop: List[Text], columns_result: List[Text]
+) -> None:
+    """Determine the columns to include in the symantic check."""
+    # Given a list of columns to add to the check
+    # columns_to_add
+
+    # and a list of columns to drop from the check
+    # columns_to_drop
+
+    # when I generate the list of columns to check
+    columns: List[Text] = diffit.reporter.get_columns(columns_to_add, columns_to_drop)
+
+    # then the resultant list should match
+    msg = "List of columns generated error"
+    assert columns == columns_result, msg
+
+
 @pytest.mark.parametrize("dummy_count", [2])
 def test_report_against_like_dataframes(dummy: DataFrame) -> None:
     """Test a diffit report output."""
@@ -38,7 +79,7 @@ def test_report_against_differing_dataframes(
         left=dummy_extra, right=dummy_skewed
     ).sort(F.col("dummy_col01"), F.col("dummy_col02"))
 
-    # then I should recieve the different rows across both source DataFrames
+    # then I should receive the different rows across both source DataFrames
     expected = [
         [1, "dummy_col02_val0000000001", "left"],
         [1, "dummy_col02_val0000000002", "right"],
@@ -66,13 +107,42 @@ def test_report_against_differing_dataframes_range_filtering(
         left=dummy_extra, right=dummy_skewed, range_filter=range_filter
     ).sort(F.col("dummy_col01"), F.col("dummy_col02"))
 
-    # then I should recieve the different rows across both source DataFrames
+    # then I should receive the different rows across both source DataFrames
     expected = [
         [2, "dummy_col02_val0000000002", "left"],
         [2, "dummy_col02_val0000000003", "right"],
     ]
     msg = "Spark DataFrame diffit report produced incorrect results"
     assert [list(row) for row in received.collect()] == expected, msg
+
+
+@pytest.mark.parametrize("dummy_extra_count,dummy_skewed_count", [(3, 2)])
+def test_report_against_differing_dataframes_with_added_col(
+    dummy_extra: DataFrame, dummy_skewed: DataFrame
+) -> None:
+    """Test a diffit report output: added column."""
+    # Given a set of like Spark SQL DataFrame schemas with different values
+    # dummy_extra for the left and dummy_skewed for the right
+
+    # when I report on differences
+    received: DataFrame = diffit.reporter.row_level(
+        left=dummy_extra,
+        right=dummy_skewed,
+        columns_to_add=["dummy_col01", "dummy_col02"],
+    )
+
+    # then I should receive the different rows across both source DataFrames
+    expected = [
+        [1, "dummy_col02_val0000000001", "left"],
+        [1, "dummy_col02_val0000000002", "right"],
+        [2, "dummy_col02_val0000000002", "left"],
+        [2, "dummy_col02_val0000000003", "right"],
+        [3, "dummy_col02_val0000000003", "left"],
+    ]
+    msg = "Spark DataFrame diffit report with columns added produced incorrect results"
+    assert [
+        list(row) for row in received.sort("dummy_col01").collect()
+    ] == expected, msg
 
 
 @pytest.mark.parametrize("dummy_extra_count,dummy_skewed_count", [(3, 2)])
@@ -88,7 +158,7 @@ def test_report_against_differing_dataframes_with_dropped_col(
         left=dummy_extra, right=dummy_skewed, columns_to_drop=["dummy_col02"]
     )
 
-    # then I should recieve the different rows across both source DataFrames
+    # then I should receive the different rows across both source DataFrames
     expected = [[3, "left"]]
     msg = "Spark DataFrame diffit report produced incorrect results"
     assert [

@@ -1,4 +1,5 @@
-"""Diffit :mod:`diffit.reporter`.
+"""Diffit `diffit.reporter`.
+
 """
 from dataclasses import dataclass
 from typing import Any, Dict, Iterable, List, Optional, Text, Union
@@ -12,9 +13,28 @@ from diffit.reporter.rangefilter import RangeFilter
 import diffit
 
 
+def get_columns(
+    columns_to_add: List[Text],
+    columns_to_drop: List[Text],
+) -> List[Text]:
+    """Determine the columns to include in the symantic check.
+
+    Parameters:
+        columns_to_add: List of columns add to the diffit check.
+        columns_to_drop: List of columns that can be omitted from the diffit check.
+
+    Returns:
+        A sorted list of columns produced after the list subtraction of `columns_to_drop` from
+            `columns_to_add`.
+
+    """
+    return sorted([x for x in columns_to_add if x not in columns_to_drop])
+
+
 def row_level(
     left: DataFrame,
     right: DataFrame,
+    columns_to_add: Optional[List[Text]] = None,
     columns_to_drop: Optional[List[Text]] = None,
     range_filter: Optional[RangeFilter] = None,
 ) -> DataFrame:
@@ -24,6 +44,7 @@ def row_level(
     Parameters:
         left: Source DataFrame orientation.
         right: Source DataFrame orientation.
+        columns_to_add: List of columns add to the diffit check.
         columns_to_drop: List of columns that can be omitted from the diffit check.
         range_filter: Data structure that sets the thresholds for range filtering.
 
@@ -34,8 +55,15 @@ def row_level(
     if columns_to_drop is None:
         columns_to_drop = []
 
-    left = left.drop(*columns_to_drop)
-    right = right.drop(*columns_to_drop)
+    if columns_to_add is None:
+        columns_to_add = sorted(left.columns)
+
+    columns: List[Text] = get_columns(columns_to_add, columns_to_drop)
+
+    log.info("Running row level difference check on columns: %s", ",".join(columns))
+
+    left = left.select(*columns)
+    right = right.select(*columns)
 
     if range_filter is not None and range_filter.column in left.columns:
         filter_clause: Optional[Column] = range_filter.range_filter_clause(left.schema)

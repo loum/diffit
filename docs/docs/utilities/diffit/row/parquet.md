@@ -12,6 +12,7 @@ venv/bin/diffit row parquet --help
  Spark DataFrame row-level diff from Spark Parquet source data.
 
 ╭─ Options ──────────────────────────────────────────────────────────────────────────────────╮
+│    --add           -a      TEXT     Add column to the diffit engine                        │
 │    --drop          -d      TEXT     Drop column from diffit engine                         │
 │    --range-column  -r      TEXT     Column to target for range filter                      │
 │    --lower         -L      INTEGER  Range filter lower bound (inclusive)                   │
@@ -63,6 +64,22 @@ venv/bin/diffit row parquet --drop col02 --drop col03 --left docker/files/parque
 +-----+----------+
 |9    |right     |
 +-----+----------+
+```
+
+The same result can be achieved by adding selected columns to the symmetric difference checker:
+
+``` sh title="diffit row Parquet adding columns to the symmetric differential engine."
+venv/bin/diffit row parquet --add col01 --add col03 --left docker/files/parquet/left --right docker/files/parquet/right
+```
+
+``` sh title="Result."
++-----+-----------+----------+
+|col01|col03      |diffit_ref|
++-----+-----------+----------+
+|8    |col03_val08|left      |
+|8    |col03_valYY|right     |
+|9    |col03_val09|right     |
++-----+-----------+----------+
 ```
 
 ## Column Value Range Filtering

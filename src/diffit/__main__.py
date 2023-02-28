@@ -98,6 +98,13 @@ def common(
 
 
 # Row options.
+option_add = typer.Option(
+    None,
+    "--add",
+    "-a",
+    help="Add column to the diffit engine",
+    show_default=False,
+)
 option_drop = typer.Option(
     None,
     "--drop",
@@ -170,6 +177,7 @@ option_right_data_source = typer.Option(
 @row_app.command(name="csv")
 def row_csv(  # pylint: disable=too-many-arguments,too-many-locals
     ctx: typer.Context,
+    add: Optional[List[Text]] = option_add,
     drop: Optional[List[Text]] = option_drop,
     range_column: Optional[Text] = option_range_column,
     lower: Optional[int] = option_lower,
@@ -218,7 +226,7 @@ def row_csv(  # pylint: disable=too-many-arguments,too-many-locals
     diffit_spark.parquet_writer(right, "docker/files/parquet/right")
 
     reporter: DataFrame = diffit.reporter.row_level(
-        left, right, columns_to_drop=drop, range_filter=range_filter
+        left, right, columns_to_add=add, columns_to_drop=drop, range_filter=range_filter
     )
     if parquet_path:
         diffit_spark.parquet_writer(reporter, parquet_path)
@@ -229,6 +237,7 @@ def row_csv(  # pylint: disable=too-many-arguments,too-many-locals
 @row_app.command(name="parquet")
 def row_parquet(  # pylint: disable=too-many-arguments
     ctx: typer.Context,
+    add: Optional[List[str]] = option_add,
     drop: Optional[List[str]] = option_drop,
     range_column: Optional[Text] = option_range_column,
     lower: Optional[int] = option_lower,
@@ -257,7 +266,7 @@ def row_parquet(  # pylint: disable=too-many-arguments
     right: DataFrame = diffit.datastore.spark.parquet_reader(spark, right_data_source)
 
     reporter: DataFrame = diffit.reporter.row_level(
-        left, right, columns_to_drop=drop, range_filter=range_filter
+        left, right, columns_to_add=add, columns_to_drop=drop, range_filter=range_filter
     )
     if parquet_path:
         diffit_spark.parquet_writer(reporter, parquet_path)
@@ -397,7 +406,9 @@ def columns_diff(
     )
     log.info(
         'Analyse diffs for column "%s" and value "%s" result:\n%s',
-        key, value, json.dumps(list(columns), indent=4, sort_keys=True, default=str),
+        key,
+        value,
+        json.dumps(list(columns), indent=4, sort_keys=True, default=str),
     )
 
 
