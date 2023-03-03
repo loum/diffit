@@ -52,11 +52,12 @@ def row_level(
         Spark DataFrame of different rows between the source DataFrames under test.
 
     """
+    log.info("columns_to_add: %s", columns_to_add)
     if columns_to_drop is None:
         columns_to_drop = []
 
-    if columns_to_add is None:
-        columns_to_add = sorted(left.columns)
+    if not columns_to_add or columns_to_add is None:
+        columns_to_add = left.columns
 
     columns: List[Text] = get_columns(columns_to_add, columns_to_drop)
 
